@@ -1,0 +1,237 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Projects and Users API"
+  },
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "summary": "User login",
+        "description": "Authenticate a user and return a token",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "user@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "user_password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation, return user details and token"
+          },
+          "400": {
+            "description": "Validation Error"
+          },
+          "401": {
+            "description": "Unauthorized, User not found or Password is incorrect"
+          }
+        }
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "summary": "Get a user",
+        "description": "Retrieve details of the currently logged in user",
+        "responses": {
+          "200": {
+            "description": "Successful operation, return user details"
+          },
+          "401": {
+            "description": "Unauthorized, Invalid or expired token"
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{id}": {
+      "get": {
+        "summary": "Get a project",
+        "description": "Retrieve a project by its unique ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a project",
+        "description": "Delete a project by its unique ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        }
+      }
+    },
+    "/api/v1/projects": {
+      "post": {
+        "summary": "Create a project",
+        "description": "Create a new project",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a project",
+        "description": "Update a project details",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "string"
+        },
+        "project_name": {
+          "type": "string"
+        },
+        "initiating_dept": {
+          "type": "string"
+        },
+        "main_objective": {
+          "type": "string"
+        },
+        "project_sponsor_id": {
+          "type": "string"
+        },
+        "project_manager_id": {
+          "type": "string"
+        },
+        "initiative_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "project_champion_id": {
+          "type": "string"
+        },
+        "technical_initiative_end_date": {
+          "type": "string"
+        },
+        "change_manager_id": {
+          "type": "string"
+        },
+        "initiative_state": {
+          "type": "string",
+          "enum": [
+            "Strategic-Change",
+            "Start-Up",
+            "Implementation",
+            "Anchoring",
+            "Benefits"
+          ]
+        },
+        "final_benefits_realization_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "description_of_change": {
+          "type": "string"
+        },
+        "why_change": {
+          "type": "string"
+        },
+        "forces_driving_the_change": {
+          "type": "string"
+        },
+        "forces_restraining_change": {
+          "type": "string"
+        },
+        "change_implementation_data": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "who_will_be_impacted_by_change": {
+          "type": "string"
+        },
+        "who_will_help": {
+          "type": "string"
+        },
+        "effect_of_the_change": {
+          "type": "string"
+        },
+        "first_step": {
+          "type": "string"
+        },
+        "second_step": {
+          "type": "string"
+        },
+        "third_step": {
+          "type": "string"
+        },
+        "fourth_step": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

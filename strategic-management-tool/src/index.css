@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  scroll-behavior: smooth;
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .btn {
+    @apply font-medium py-2 px-4 m-0 rounded-none flex flex-row items-center justify-center;
+  }
+  .sm {
+    @apply px-2 h-12;
+  }
+
+  .md {
+    @apply px-4 w-40 h-12;
+  }
+
+  .lg {
+    @apply px-12 py-8  h-14;
+  }
+
+  .xl {
+    @apply px-16 py-12 h-24;
+  }
+
+  /*button colors: default, primary, info, success, warning, danger, dark */
+
+  .primary {
+    @apply bg-primary-500 text-white text-base;
+  }
+  .primary:hover {
+    @apply bg-primary-400 text-white;
+  }
+
+  .secondary {
+    @apply bg-secondary-500 text-white;
+  }
+  .seconda:hover {
+    @apply bg-secondary-500 text-white;
+  }
+
+  .disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  .disabled:hover {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+.tab-selected::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: #1d4ed8; /* Replace this with the color you want */
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+}
+
+/* .scrollbar {
+  @apply scrollbar;
+}
+
+.scrollbar-thin {
+  @apply scrollbar-thin;
+}
+
+.scrollbar-thumb-gray-400 {
+  @apply scrollbar-thumb-gray-400;
+} */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+
+.fc-toolbar .fc-button {
+  @apply bg-transparent text-[#000] border-border;
+}
+
+.fc-toolbar .fc-button:focus {
+  @apply bg-primary-300 text-[#000] border-border;
+}
+.fc-toolbar .fc-button:hover {
+  @apply bg-primary-50 text-[#000] border-border cursor-pointer;
+}
+
+.fc-scroller {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.fc-scroller::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari and Opera */
+}

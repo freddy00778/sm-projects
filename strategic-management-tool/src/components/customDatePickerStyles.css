@@ -1,0 +1,15 @@
+.react-date-picker__inputGroup__input {
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  background-color: none !important;
+  color: none !important;
+}
+
+.react-date-picker__input {
+  border: none !important;
+}
+
+.react-date-picker__wrapper {
+  border: none !important;
+}
