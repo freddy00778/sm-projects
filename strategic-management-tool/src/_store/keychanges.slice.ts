@@ -28,6 +28,10 @@ const getKeyChanges = createAsyncThunk(`${keyChangeName}/getKeyChanges`, async (
     return await fetchWrapper.get(`${baseUrl}/api/v1/key-changes`);
 });
 
+const getKeyChangesByProjectId = createAsyncThunk(`${keyChangeName}/getKeyChangesByProjectId`, async ({id}: {id: string}) => {
+    return await fetchWrapper.get(`${baseUrl}/api/v1/key-changes?id=${id}&type=project`);
+});
+
 const getKeyChangeById = createAsyncThunk(`${keyChangeName}/getKeyChangeById`, async ({ id }: { id: string }) => {
     return await fetchWrapper.get(`${baseUrl}/api/v1/key-changes/${id}`);
 });
@@ -69,6 +73,22 @@ const keyChangeSlice = createSlice({
                 state.error = action.payload;
                 state.isLoading = true
             })
+
+
+            .addCase(getKeyChangesByProjectId.fulfilled, (state, action) => {
+                state.keyChanges = action.payload;
+                state.error = null;
+                state.isLoading = false
+            })
+            .addCase(getKeyChangesByProjectId.rejected, (state, action) => {
+                state.error = action.payload;
+                state.isLoading = false
+            })
+            .addCase(getKeyChangesByProjectId.pending, (state, action) => {
+                state.error = action.payload;
+                state.isLoading = true
+            })
+
 
             .addCase(getKeyChangeById.fulfilled, (state, action) => {
                 state.keyChange = action.payload;
@@ -121,6 +141,7 @@ export const { clearKeyChanges } = keyChangeSlice.actions;
 export const keyChangeActions = {
     getKeyChanges,
     getKeyChangeById,
+    getKeyChangesByProjectId,
     createKeyChange,
     deleteKeyChange,
     updateKeyChange,

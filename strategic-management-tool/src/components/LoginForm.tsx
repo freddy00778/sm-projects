@@ -1,3 +1,4 @@
+import * as React from "react"
 import fav from "../assets/images/fav.svg";
 import InputField from "./InputField";
 import { useState, useEffect } from "react";
@@ -6,7 +7,6 @@ import { CustomCheckbox } from "./CustomCheckBox";
 import SuccessModal from "./SuccessModal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginAsync } from "../features/auth/authSlice";
 import { useSelector } from "react-redux";
 // import { RootState } from "../app/store";
 // import { AppDispatch } from "../app/store";
@@ -16,6 +16,7 @@ import {authActions} from "../_store";
 import Loader from "./Loader";
 
 const LoginForm = () => {
+  //@ts-ignore
   const {error, isLoading} = useSelector(state => state.auth)
   const [errorMessage, setErrorMessage] = useState("")
   const [password, setPassword] = useState("");
@@ -36,9 +37,8 @@ const LoginForm = () => {
     // dispatch(authActions.login({email, password}))
     try{
 
-      dispatch(authActions.login({email, password}))
-          // .unwrap()
-          .then((res) => {
+      //@ts-ignore
+      dispatch(authActions.login({email, password})).then((res) => {
             if (res.type !== "auth/login/rejected") {
               handleSuccessToast()
               setTimeout(() => {
@@ -85,14 +85,7 @@ const LoginForm = () => {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 3000, // Auto-close the toast after 3 seconds
     });
-  };
-
-  const handleErrorToast = (errorMessage: string) => {
-    toast.error("Error: " + errorMessage, {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 3000, // Auto-close the toast after 3 seconds
-    });
-  };
+  }
 
   return (
     <div className="flex flex-col w-full  px-36">

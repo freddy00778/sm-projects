@@ -36,6 +36,7 @@ const MultiSelectDropdown: React.FC<DropdownProps> = ({
     const [selectedOptions, setSelectedOptions] = useState<Option[]>(defaultOptions || []);
 
     useEffect(() => {
+        console.log("label", label)
         setSelectedOptions(defaultOptions || []);
     }, [defaultOptions]);
 

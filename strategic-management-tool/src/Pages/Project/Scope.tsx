@@ -1,13 +1,12 @@
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
 import ScopeForm from "../../components/ScopeForm";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
-import {scopeActions} from "../../_store/scopes.slice";
+import {useSelector} from "react-redux";
 import Loader from "../../components/Loader";
 import React from "react";
 
 const Scope = () => {
+    //@ts-ignore
     const {isLoading} = useSelector(state => state.scopes)
 
 

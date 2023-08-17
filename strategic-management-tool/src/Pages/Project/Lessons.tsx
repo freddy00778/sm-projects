@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
 import LessonsForm from "../../components/Lessons/LessonsForm";

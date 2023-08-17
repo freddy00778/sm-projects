@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import CustomModal, { ModalSize } from "./CustomModal";
 import InputField from "./InputField";
 import Button from "./Button";

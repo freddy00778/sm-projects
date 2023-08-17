@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
 import ProjectDashboard from "../../components/ProjectDashboard";
@@ -7,6 +8,7 @@ import BehaviorChangeInfo from "../../components/BehaviorChangeInfo";
 import {useSelector} from "react-redux";
 
 const Home = () => {
+    //@ts-ignore
     const {user} = useSelector(state => state.auth)
   return (
     <div className="flex flex-col w-full h-screen">

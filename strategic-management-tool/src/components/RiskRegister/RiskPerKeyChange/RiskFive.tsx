@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Button from "../../Button";
 import InputDropdown from "../../InputDropdown";
 import { useState } from "react";
@@ -11,6 +12,7 @@ const RiskFive = () => {
     "Key Change 1",
     "Key Change 2",
     "Key Change 3",
+
     "Key Change 4",
   ];
 

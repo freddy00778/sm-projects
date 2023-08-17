@@ -1,3 +1,4 @@
+import * as React from 'react';
 import InstructionForm from "../../components/InstructionForm";
 import reset from "../../assets/images/reset.svg";
 

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState } from "react";
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
@@ -7,6 +8,7 @@ import project from "../../assets/images/project.svg";
 import { useNavigate } from "react-router-dom";
 const ManagerProjects = () => {
   const navigation = useNavigate();
+  //@ts-ignore
   const [isProjectAdded, setIsProjectAdded] = useState(false);
 
   const handleRoute = () => {

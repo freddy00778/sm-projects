@@ -8,7 +8,9 @@ export const getKeyChanges = catchErrors(async (req, res) => {
     const keyChangeHandler = await KeyChangeHandlers.create(data)
 
     console.log("Body", req.query)
-    const keyChanges = await keyChangeHandler.getAll({})
+    const queryObject = req.query.id ? {project_id: req.query.id} : {}
+    //@ts-ignore
+    const keyChanges = await keyChangeHandler.getAll(queryObject)
     res.respond({ data: keyChanges });
 });
 

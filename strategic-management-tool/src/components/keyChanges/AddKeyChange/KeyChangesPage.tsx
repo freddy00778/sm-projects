@@ -25,7 +25,7 @@ const KeyChangesPage = () => {
   };
 
   useEffect(() => {
-    dispatch(keyChangeActions.getKeyChanges())
+    dispatch(keyChangeActions.getKeyChangesByProjectId({id: user?.project_id}))
 
   },[])
 
@@ -52,7 +52,8 @@ const KeyChangesPage = () => {
         title: newData.title,
         value: newData.change,
         as_is: newData.asIs,
-        to_be: newData.toBe
+        to_be: newData.toBe,
+        project_id: user?.project_id
       })).then((res) => {
         if (res?.payload){
           handleSuccessToast()

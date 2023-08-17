@@ -10,26 +10,18 @@ type ListItem = {
 }
 
 const ScopeForm: React.FC = () => {
+  //@ts-ignore
   const {user} = useSelector(state => state.auth)
+  //@ts-ignore
   const {scopes} = useSelector(state => state.scopes)
-  const [scopeList, setScopeList] = useState([])
   const [listItems, setListItems] = useState<ListItem[]>([]);
   const [boxItems, setBoxItems] = useState<ListItem[]>([]);
   const dispatch = useDispatch()
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(scopeActions.getScopeByProjectId({ id: user.project_id }));
   }, [dispatch, user.project_id]);
-
-  // useEffect(() => {
-  //   if (scopes && scopes.data) {
-  //     const mapped = scopes.data.map(scp => ({
-  //       id: scp.id,
-  //       content: scp.description,
-  //     }));
-  //     setListItems(mapped);
-  //   }
-  // }, [scopes]);
 
   useEffect(() => {
     if (scopes && scopes.data) {
@@ -71,6 +63,7 @@ const ScopeForm: React.FC = () => {
       setListItems(listItems.filter((item) => item.id !== id));
       setBoxItems([...boxItems, item]);
       console.log("items", item)
+      //@ts-ignore
       dispatch(scopeActions.updateScope({
         id: item.id,
         in_scope: true
@@ -87,6 +80,8 @@ const ScopeForm: React.FC = () => {
     if (item) {
       setBoxItems(boxItems.filter((item) => item.id !== id));
       setListItems([...listItems, item]);
+
+      //@ts-ignore
       dispatch(scopeActions.updateScope({
         id: item.id,
         in_scope: false
@@ -97,6 +92,7 @@ const ScopeForm: React.FC = () => {
   const handleDelete = (id: string) => {
     setListItems(listItems.filter((item) => item.id !== id));
     setBoxItems(boxItems.filter((item) => item.id !== id));
+    //@ts-ignore
     dispatch(scopeActions.deleteScope({id: id}))
   };
 

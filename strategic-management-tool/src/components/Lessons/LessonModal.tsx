@@ -26,8 +26,7 @@ interface LessonModalProps {
   saveForm: React.Dispatch<React.SetStateAction<void>>
 }
 
-const LessonModal: FC<LessonModalProps> = ({
-  isOpen,
+const LessonModal: FC<LessonModalProps> = ({isOpen,
   onClose,
   className,
   cancel,

@@ -1,3 +1,4 @@
+import * as React from "react"
 import CurveChart from "./CurveChart";
 import { BehaviorChangeData } from "../data/BehaviorChangeData";
 const BehaviorChangeInfo = () => {

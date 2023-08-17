@@ -7,14 +7,17 @@ import keyChange from "../../assets/images/key-change.svg";
 import React from "react";
 import Loader from "../Loader";
 const ObjectivesPage = () => {
+    //@ts-ignore
     const {isLoading} = useSelector( state => state.objectives)
+    //@ts-ignore
     const keyChanges = useSelector( state => state.keychanges)
     const dispatch = useDispatch()
     const [objectiveKeyChanges, setObjectiveKeyChanges] = useState([])
 
     useEffect(() => {
+        //@ts-ignore
         dispatch(keyChangeActions.getKeyChanges()).then((kc) => {
-            const objectiveKeyChanges = kc?.payload?.data?.map((kcg,index)=> {
+            const objectiveKeyChanges = kc?.payload?.data?.map((kcg)=> {
                 const page = `/project/dashboard/keychange/objectives/${kcg?.id}`
                 return   {
                     id: kcg?.id,

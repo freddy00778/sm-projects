@@ -1,5 +1,4 @@
 import Settings from "../assets/images/settings.svg";
-import Logout from "../assets/images/log-out.svg";
 
 export interface OtherDataProps {
   id: string;

@@ -1,7 +1,7 @@
-import { PriorityData } from "../../data/PriorityData";
+// import { PriorityData } from "../../data/PriorityData";
 import KeyChangeList from "./KeyChangeList";
 import { Outlet } from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {keyChangeActions} from "../../_store/keychanges.slice";
 import keyChange from "../../assets/images/key-change.svg";
 import {useDispatch} from "react-redux";
@@ -11,8 +11,9 @@ const PriorityPage = () => {
     const [priorityChanges, setPriorityChanges] = useState([])
 
     useEffect(() => {
+        //@ts-ignore
         dispatch(keyChangeActions.getKeyChanges()).then((kc) => {
-            const keyChanges = kc?.payload?.data?.map((kcg,index)=> {
+            const keyChanges = kc?.payload?.data?.map((kcg)=> {
                 const page = `/project/dashboard/keychange/priority/${kcg?.id}`
                 return   {
                     id: kcg?.id,

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
 import ManagerProjectsComponent from "../../components/Manager/ManagerProjectsComponent";
@@ -5,6 +6,7 @@ import Filter from "../../components/Executive/Filter";
 import {useSelector} from "react-redux";
 
 const ExecutiveProjects = () => {
+  //@ts-ignore
   const {projects} = useSelector(state=> state.project)
   return (
     <div className="flex flex-col w-full h-screen">

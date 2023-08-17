@@ -1,7 +1,7 @@
 import InputDropdown from "../InputDropdown";
 import InputField from "../InputField";
 import Button from "../Button";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {budgetActions} from "../../_store";
@@ -10,6 +10,7 @@ const BudgetForm = () => {
   const dispatch = useDispatch()
   const params = useParams();
   const paramValue = params["*"]
+  //@ts-ignore
   const {user} = useSelector(state => state.auth)
   const {budget} = useSelector(state => state.budget)
   const [benefit, setBenefit] = useState(budget?.data?.how_many_people);
@@ -42,6 +43,7 @@ const BudgetForm = () => {
 
   const handleFormSubmission = () => {
     console.log("Param value", paramValue)
+    //@ts-ignore
     dispatch(budgetActions.createBudget({
       budget_item_id: paramValue,
       do_we_need_it: selectedOption.value,

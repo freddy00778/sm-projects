@@ -1,5 +1,5 @@
+import * as React from "react"
 import Button from "../Button";
-
 import Table from "../Table";
 import {useEffect, useState} from "react";
 import lesson from "../../assets/images/lessons-log.svg";
@@ -9,10 +9,11 @@ import { DataType } from "../../../types";
 import {categoryActions} from "../../_store/category.slice";
 import {useDispatch, useSelector} from "react-redux";
 import {lessonActions} from "../../_store/lessons.slice";
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 
 const LessonsForm = () => {
   const dispatch = useDispatch()
+  //@ts-ignore
   const {user} = useSelector(state => state.auth)
   console.log("User from lessons", user )
   const [secondModalOpen, setSecondModalOpen] = useState(false);
@@ -24,7 +25,7 @@ const LessonsForm = () => {
   const [options, setOptions] = useState([])
   const [option, setOption]   = useState(null)
   const [lessons, setLessons]   = useState([])
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted] = useState(false)
 
   const addData = (newData: DataType) => {
     console.log(`${category} - ${dateLogged} - ${description} - ${loggedBy}`)
@@ -33,6 +34,7 @@ const LessonsForm = () => {
 
 
   const fetchLessons = () => {
+    //@ts-ignore
     dispatch(lessonActions.getLessons()).then((lessonsRes) => {
       const lessons = lessonsRes?.payload?.data
       setLessons(lessons)
@@ -40,6 +42,7 @@ const LessonsForm = () => {
   }
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(categoryActions.getCategories()).then((categoriesRes)=> {
       const categoryOptions = categoriesRes?.payload?.data?.map((ctg) => {
         return {
@@ -84,7 +87,7 @@ const LessonsForm = () => {
   // }
 
   const saveForm = () => {
-    addLesson()
+    // addLesson()
     setSecondModalOpen(false)
   }
 
@@ -117,27 +120,8 @@ const LessonsForm = () => {
           />
         </div>
       </div>
-      <LessonModal
-        isOpen={secondModalOpen}
-        onClose={() => setSecondModalOpen(false)}
-        className=" absolute"
-        cancel={cancel}
-        width={14}
-        category={category}
-        setCategory={setCategory}
-        loggedBy={loggedBy}
-        setLoggedBy={setLoggedBy}
-        description={description}
-        setDescription={setDescription}
-        dateLogged={dateLogged}
-        setDateLogged={setDateLogged}
-        addData={addData}
-        dataLength={data.length}
-        options={options}
-        handleOptionSelected={handleOptionSelected}
-        option={option}
-        saveForm={saveForm}
-      />
+
+      <LessonModal isOpen={secondModalOpen} onClose={() => setSecondModalOpen(false)} className=" absolute" cancel={cancel} width={14} category={category} setCategory={setCategory} loggedBy={loggedBy} setLoggedBy={setLoggedBy} description={description} setDescription={setDescription} dateLogged={dateLogged} setDateLogged={setDateLogged} addData={addData} dataLength={data.length} options={options} handleOptionSelected={handleOptionSelected} option={option} saveForm={saveForm}/>
     </div>
   );
 };

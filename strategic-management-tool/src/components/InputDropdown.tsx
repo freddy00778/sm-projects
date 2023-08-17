@@ -3,7 +3,7 @@ import drop from "../assets/images/dropdown.svg";
 
 interface DropdownProps {
   label: any;
-  options: string[];
+  options: any[];
   onOptionSelected: (option: string) => void;
   id: string;
   header?: string;

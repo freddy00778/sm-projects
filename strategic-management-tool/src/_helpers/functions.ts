@@ -32,7 +32,7 @@ export const formatDate = (dateString) => {
 
 export const unslugify = (slug) => {
   return slug
-      .split(/[-_]/)           // split string on hyphens or underscores
+      ?.split(/[-_]/)           // split string on hyphens or underscores
       .map(word =>             // map over each word
           word.charAt(0).toUpperCase() + word.slice(1)  // capitalize the first letter of each word
       )

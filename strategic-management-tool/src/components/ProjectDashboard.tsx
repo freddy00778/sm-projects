@@ -1,15 +1,18 @@
-import { ProjectData } from "../data/ProjectData";
+import * as React from "react"
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {projectActions} from "../_store/project.slice";
 import {unslugify} from "../_helpers/functions";
 
 const ProjectDashboard = () => {
+    //@ts-ignore
     const {user} = useSelector(state => state.auth)
+    //@ts-ignore
     const {projects} = useSelector(state => state.project)
     const dispatch = useDispatch()
 
     useEffect(() => {
+        //@ts-ignore
         dispatch(projectActions.getProjectsByOrgId({id: user?.organisation_id}))
     },[])
 

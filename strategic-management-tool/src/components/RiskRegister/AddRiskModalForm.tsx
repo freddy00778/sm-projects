@@ -1,3 +1,4 @@
+import * as React from 'react';
 import InputField from "../InputField";
 import InputDropdown from "../InputDropdown";
 import Button from "../Button";
@@ -87,27 +88,17 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
     setSecondModalOpen(true); // Open the modal when button is clicked
   };
   const handleSave = () => {
-    addData({
-      risk: risk,
-      owner: owner,
-      action: action,
-      person: person,
-      category: category,
-      assessment: assessment,
-      reportedDate: reportedDate,
-      options1: options1,
-      options2: options2,
-      options3: options3,
-    });
+      //@ts-ignore
+    addData({risk: risk, owner: owner, action: action, person: person, category: category, assessment: assessment, reportedDate: reportedDate, options1: options1, options2: options2, options3: options3,});
     onClose();
   };
-  const handleOptionSelected1 = (option1: string) => {
+  const handleOptionSelected1 = (option1: any) => {
     setSelectedOption1(option1);
   };
-  const handleOptionSelected2 = (option2: string) => {
+  const handleOptionSelected2 = (option2: any) => {
     setSelectedOption2(option2);
   };
-  const handleOptionSelected3 = (option3: string) => {
+  const handleOptionSelected3 = (option3: any) => {
     setSelectedOption3(option3);
   };
   return (

@@ -1,7 +1,7 @@
 import KeyChangeList from "./KeyChangeList";
 import { Outlet } from "react-router-dom";
-import { KeyImpactData } from "../../data/KeyImpactData";
-import {useEffect, useState} from "react";
+// import { KeyImpactData } from "../../data/KeyImpactData";
+import React, {useEffect, useState} from "react";
 import {keyChangeActions} from "../../_store/keychanges.slice";
 import keyChange from "../../assets/images/key-change.svg";
 import {useDispatch} from "react-redux";
@@ -12,6 +12,7 @@ const KeyImpactPage = () => {
 
     // /project/dashboard/keychange/stakeholders
     useEffect(() => {
+        //@ts-ignore
         dispatch(keyChangeActions.getKeyChanges()).then((kc) => {
             const keyChanges = kc?.payload?.data?.map((kcg,index)=> {
                 const page = `/project/dashboard/keychange/key-impacts/${kcg?.id}`

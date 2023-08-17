@@ -1,3 +1,4 @@
+
 import {useEffect, useState} from "react";
 import AddRiskModal from "./AddRiskModal";
 import { DataType } from "../../../types";
@@ -6,7 +7,6 @@ import view from "../../assets/images/view.svg";
 import edit from "../../assets/images/edit.svg";
 import trash from "../../assets/images/delete.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import {issueActions} from "../../_store/issues.slice";
 import {toast, ToastContainer} from "react-toastify";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -26,7 +26,9 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
   addData,
 }) => {
   const dispatch = useDispatch()
+  //@ts-ignore
   const {user} = useSelector( state => state.auth)
+  //@ts-ignore
   const {risks, isLoading} = useSelector(state => state.risk)
   const params = useParams()
   const keyChangeId = params["*"]
@@ -39,6 +41,7 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
   const [assessment1, setAssessment1] = useState("");
   const [dateLogged, setDateLogged] = useState("");
   const [reportedDate, setReportedDate] = useState("");
+  //@ts-ignore
   const [dataEntries, setDataEntries] = useState<DataType[]>([]);
 
   console.log("risks", risks)
@@ -80,26 +83,12 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
 
     console.log("Risk data", newData)
 
-
-
-    dispatch(riskActions.createRisk({
-      risk: risk,
-      responsible_manager: owner,
-      date_reported: reportedDate,
-      mitigating_actions: action,
-      assigned_mitigator: person,
-      project_id: user?.project_id,
-      key_change_id: keyChangeId,
-      risk_category: category,
-      risk_assessment_value: assessment
-
-    })).then((res) => {
+    //@ts-ignore
+    dispatch(riskActions.createRisk({risk: risk, responsible_manager: owner, date_reported: reportedDate, mitigating_actions: action, assigned_mitigator: person, project_id: user?.project_id, key_change_id: keyChangeId, risk_category: category, risk_assessment_value: assessment})).then((res) => {
       if (res?.payload?.message === "success"){
         handleSuccessToast()
       }
     })
-
-
 
     setDataEntries((prevDataEntries) => [...prevDataEntries, newData]);
     setRisk("");
@@ -115,13 +104,6 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
 
   const handleSuccessToast = () => {
     toast.success("Successfully added a risk!", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 3000, // Auto-close the toast after 3 seconds
-    });
-  };
-
-  const handleErrorToast = () => {
-    toast.error("Failed!", {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 3000, // Auto-close the toast after 3 seconds
     });

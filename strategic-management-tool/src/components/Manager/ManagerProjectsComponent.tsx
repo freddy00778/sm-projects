@@ -1,4 +1,4 @@
-import { ProjectDetailsData } from "../../data/ProjectDetailsData";
+import * as React from 'react'
 import dots from "../../assets/images/dots.svg";
 import userImage from "../../assets/images/user.svg";
 import calendar from "../../assets/images/calendar.svg";
@@ -15,12 +15,15 @@ const unslugify = (slug) => {
 
 
 const ManagerProjectsComponent = () => {
+    //@ts-ignore
     const {user} = useSelector(state => state.auth)
+    //@ts-ignore
     const {projects} = useSelector(state => state.project)
     const [projectList, setProjectList] = useState([])
     const dispatch = useDispatch()
 
     useEffect(() => {
+        //@ts-ignore
         dispatch(projectActions.getProjectsByOrgId({id: user?.organisation_id}))
     }, [])
 

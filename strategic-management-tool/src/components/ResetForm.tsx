@@ -1,3 +1,4 @@
+import * as React from "react"
 import fav from "../assets/images/fav.svg";
 import InputField from "./InputField";
 import { useState } from "react";

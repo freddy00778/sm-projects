@@ -1,6 +1,6 @@
+
 import { Outlet } from "react-router-dom";
 import KeyChangeList from "../keyChanges/KeyChangeList";
-import { KeyChangeListData } from "../../data/KeyChangeListData";
 import {useEffect, useState} from "react";
 import {keyChangeActions} from "../../_store/keychanges.slice";
 import keyChange from "../../assets/images/key-change.svg";
@@ -11,6 +11,7 @@ const RiskRegisterLayout = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        //@ts-ignore
         dispatch(keyChangeActions.getKeyChanges()).then((res) => {
             const mappedKeyChanges = res?.payload?.data?.map((keyChangeItem) => {
                 return    {

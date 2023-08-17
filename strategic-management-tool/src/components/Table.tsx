@@ -4,9 +4,14 @@ import { DataType } from "../../types";
 //   [key: string]: string | number | React.ReactNode ;
 // }
 
+// interface Heading {
+//   name: string
+//   alias: string
+// }
+
 export interface TableProps {
-  headings: string[];
-  data: DataType[];
+  headings: any[];
+  data: any[];
   addData?: (data: DataType) => void;
   className?: string;
   children?: React.ReactNode;

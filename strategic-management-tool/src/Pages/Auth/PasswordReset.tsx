@@ -1,3 +1,4 @@
+import * as React from 'react';
 import reset from "../../assets/images/reset.svg";
 import ResetForm from "../../components/ResetForm";
 

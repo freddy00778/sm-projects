@@ -1,3 +1,4 @@
+import * as React from 'react';
 import ProjectInfoForm from "../../components/ProjectInfoForm";
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
@@ -5,6 +6,8 @@ import Loader from "../../components/Loader";
 import {useSelector} from "react-redux";
 
 const ProjectInformation = () => {
+
+    //@ts-ignore
     const {isLoading} = useSelector(state => state.project)
   return (
     <div className="flex flex-col w-full h-screen space-y-6">

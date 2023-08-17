@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
 import ChangeApproachForm from "../../components/ChangeApproachForm";
@@ -6,6 +7,7 @@ import {useSelector} from "react-redux";
 import Loader from "../../components/Loader";
 
 const ChangeApproach = () => {
+    //@ts-ignore
     const {isLoading} = useSelector( state => state.changeApproach)
   return (
     <div className="flex flex-col w-full h-screen  ">

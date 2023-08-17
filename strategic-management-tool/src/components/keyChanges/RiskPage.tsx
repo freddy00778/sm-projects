@@ -1,7 +1,7 @@
-import { RiskImpactData } from "../../data/RiskImpactData";
+// import { RiskImpactData } from "../../data/RiskImpactData";
 import KeyChangeList from "./KeyChangeList";
 import * as Tabs from "@radix-ui/react-tabs";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import RiskImpactForm from "./KeyChangeForms/RiskImpactForm";
 import InputField from "../InputField";
 import DisplayValuesComponent from "../DisplayValuesComponent";
@@ -20,6 +20,7 @@ interface RiskPageProps {
 }
 
 const RiskPage: React.FC<RiskPageProps> = ({ onChange }) => {
+  //@ts-ignore
   const {user} = useSelector(state => state.auth)
   const [displayValues1, setDisplayValues1] = useState<string[]>([]);
   const [displayValues2, setDisplayValues2] = useState<string[]>([]);

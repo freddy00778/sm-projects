@@ -1,9 +1,8 @@
 import KeyChangeList from "./KeyChangeList";
-import { StakeholderData } from "../../data/StakeholdersData";
 import * as Tabs from "@radix-ui/react-tabs";
 import StakeholderForm from "./KeyChangeForms/StakeholderForm";
 import ChangeDriverForm from "./KeyChangeForms/ChangeDriverForm";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {keyChangeActions} from "../../_store/keychanges.slice";
 import keyChange from "../../assets/images/key-change.svg";
 import {useDispatch, useSelector} from "react-redux";
@@ -14,13 +13,15 @@ const StakeholdersPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>("tab1");
     const dispatch = useDispatch()
     const [stakeholderKeychanges,setStakeholderKeychanges ] = useState([])
+    //@ts-ignore
     const {isLoading} = useSelector(state => state.stakeholder)
 
     const tabIsActive = (tabValue: string): boolean => activeTab === tabValue;
 
     useEffect(() => {
+        //@ts-ignore
         dispatch(keyChangeActions.getKeyChanges()).then((kc) => {
-            const keyChanges = kc?.payload?.data?.map((kcg,index)=> {
+            const keyChanges = kc?.payload?.data?.map((kcg)=> {
                 const page = `/project/dashboard/keychange/stakeholders/${kcg?.id}`
                 return   {
                     id: kcg?.id,
@@ -31,6 +32,7 @@ const StakeholdersPage: React.FC = () => {
             })
             setStakeholderKeychanges(keyChanges)
         })
+        //@ts-ignore
         dispatch(departmentActions.getDepartments())
     }, [])
 

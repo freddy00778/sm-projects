@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Header from "../../components/Header";
 import avatar from "../../assets/images/avatar.jpg";
 import RiskRegisterLayout from "../../components/RiskRegister/RiskRegisterLayout";
@@ -5,7 +6,9 @@ import Loader from "../../components/Loader";
 import {useSelector} from "react-redux";
 
 const RiskRegister = () => {
+    //@ts-ignore
     const {isLoading} = useSelector(state => state.risk)
+    //@ts-ignore
     const keyChanges = useSelector(state => state.keychanges)
   return (
     <div className="flex flex-col w-full h-screen space-y-6">

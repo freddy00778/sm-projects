@@ -1,3 +1,4 @@
+import * as React from "react"
 import { FC } from "react";
 import CustomModal from "../CustomModal";
 import AddRiskModalForm from "./AddRiskModalForm";

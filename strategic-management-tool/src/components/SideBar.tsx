@@ -1,3 +1,4 @@
+import * as React from 'react';
 import logo from "../assets/images/changeverve.svg";
 import { NavLinksData } from "../data/NavlinksData";
 import {NavLink, useLocation, Link, useNavigate} from "react-router-dom";
@@ -6,7 +7,6 @@ import { useState } from "react";
 import Logout from "../assets/images/log-out.svg";
 import {useDispatch} from "react-redux";
 import {authActions} from "../_store/index";
-import {toast, ToastContainer} from "react-toastify";
 
 
 const SideBar = () => {
@@ -23,12 +23,6 @@ const SideBar = () => {
     return activeRoute === route;
   }
 
-    const handleSuccessToast = () => {
-      toast.success("Successfully logged out...redirecting", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000, // Auto-close the toast after 3 seconds
-      });
-    };
 
   return (
     <div className="flex flex-col h-screen justify-between w-[22%] bg-white shadow-lg rotate-0">

@@ -45,17 +45,12 @@ const LessonModalForm: React.FC<LessonModalFormProps> = ({
     const formattedDate = `${date.getDate()}-${
         date.getMonth() + 1
     }-${date.getFullYear()}`;
-    addData({
-      No: dataLength + 1,
-      Type: selectedOption,
-      Description: text,
-      "Date Logged": formattedDate,
-      "Logged By": division,
-    });
+    //@ts-ignore
+    addData({No: dataLength + 1, Type: selectedOption, Description: text, "Date Logged": formattedDate, "Logged By": division,});
     setCategory("");
     // setDivision("");
     // setText("");
-    setSelectedOption(options[0]); // Open the modal when button is clicked
+    setSelectedOption(options[0])
     onClose();
   };
   return (

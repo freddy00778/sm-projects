@@ -1,8 +1,8 @@
-import {FC, useEffect, useRef, useState} from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import plus from "../../assets/images/plus.svg";
 import del from "../../assets/images/delete.svg";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {budgetActions} from "../../_store";
 
 export interface DropdownOption {
@@ -16,20 +16,20 @@ interface DropdownProps {
   onClick: any
 }
 
-const option = {
-  id: "1",
-  title: "option 1",
-  route: `/project/dashboard/budget/1`,
-}
+// const option = {
+//   id: "1",
+//   title: "option 1",
+//   route: `/project/dashboard/budget/1`,
+// }
 
 const BudgetDropdown: FC<DropdownProps> = ({ options, onSelectionChange, selectedBudgetItems }) => {
-  const {user} = useSelector(state => state.auth)
-  const {budgets} = useSelector(state => state.budget)
+  // const {user} = useSelector(state => state.auth)
+  // const {budgets} = useSelector(state => state.budget)
   const [selectedOptions, setSelectedOptions] = useState<DropdownOption[]>([]);
   const [activeOption, setActiveOption] = useState<DropdownOption | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
-  const paramValue = params["*"]
+  // const paramValue = params["*"]
   const dispatch = useDispatch()
   const buttonRef = useRef();
 
@@ -38,10 +38,12 @@ const BudgetDropdown: FC<DropdownProps> = ({ options, onSelectionChange, selecte
   }, [options] )
 
   const handleBudgetItem = (id: string) => {
+    //@ts-ignore
     dispatch(budgetActions.getBudgetByBudgetItemId({id}))
   }
 
   const handleSelect = (option: DropdownOption) => {
+    //@ts-ignore
     if (!selectedOptions.find((opt) => opt.title === option.title)) {
       setSelectedOptions((prevOptions) => {
         const newOptions = [...prevOptions, option];

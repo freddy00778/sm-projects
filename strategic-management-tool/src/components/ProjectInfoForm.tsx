@@ -1,9 +1,9 @@
+import * as React from "react"
 import InputField from "./InputField";
 import {useEffect, useState} from "react";
 import InputDropdown from "./InputDropdown";
 import DisplayValuesComponent from "./DisplayValuesComponent";
 import Button from "./Button";
-import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {projectActions} from "../_store/project.slice";
 import {departmentActions} from "../_store/department.slice";
@@ -20,14 +20,18 @@ interface ProjectInfoFormProps {
 
 const ProjectInfoForm: React.FC<ProjectInfoFormProps> = ({ onChange }) => {
   const dispatch = useDispatch()
+  //@ts-ignore
   const {user} = useSelector(state => state.auth)
+  //@ts-ignore
   const {isLoading,project} = useSelector(state => state.project)
+  //@ts-ignore
   const {highLevelPlans} = useSelector(state => state.plan)
+  //@ts-ignore
   const {scopes } = useSelector(state => state.scopes)
+  //@ts-ignore
   const scopesState  = useSelector(state => state.scopes)
   console.log("plans", scopes)
   const [category, setCategory] = useState("");
-  const [division, setDivision] = useState("");
   const [sponsor, setSponsor] = useState("");
   const [manager, setManager] = useState("");
   const [champion, setChampion] = useState("");
@@ -62,14 +66,14 @@ const ProjectInfoForm: React.FC<ProjectInfoFormProps> = ({ onChange }) => {
   ];
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOption1, setSelectedOption1] = useState(options1[0]);
-  const [departmentOption, setDepartmentOption] = useState(null);
+  const [departmentOption, setDepartmentOption] = useState({});
   const [inputValue, setInputValue] = useState("");
   const [inputValue1, setInputValue1] = useState("");
   const [displayValues, setDisplayValues] = useState<string[]>([]);
   const [displayValues1, setDisplayValues1] = useState<string[]>([]);
+  //@ts-ignore
   const {departments} = useSelector(state => state.department)
   const [departmentOptions, setDepartmentOptions] = useState([])
-  const navigate = useNavigate();
   const [descriptionDepartment, setDescriptionDepartment] = useState()
   // const [date, setDate] = useState<Date | null>(new Date("2024-02-26T14:13:23.389+00:00"));
 
@@ -110,11 +114,10 @@ const ProjectInfoForm: React.FC<ProjectInfoFormProps> = ({ onChange }) => {
   const handleKeyPress1 = (value: string) => {
     // alert(value)
     if (value){
-      dispatch(scopeActions.createScope({
-        description: value,
-        project_id: user?.project_id
-      })).then((res) => {
+      //@ts-ignore
+      dispatch(scopeActions.createScope({description: value, project_id: user?.project_id})).then((res) => {
         if (res?.type?.includes("fulfilled")){
+          //@ts-ignore
           dispatch(scopeActions.getScopeByProjectId({id: user?.project_id}))
           // setDisplayValues1([...displayValues1, value]);
         }
@@ -145,6 +148,7 @@ const ProjectInfoForm: React.FC<ProjectInfoFormProps> = ({ onChange }) => {
   const handleSave = () => {
     // navigate("/project/dashboard/scope");
 
+    //@ts-ignore
     dispatch(projectActions.updateProject({
       id: user?.project_id,
       category_id: selectedOption?.value,
@@ -175,11 +179,11 @@ const ProjectInfoForm: React.FC<ProjectInfoFormProps> = ({ onChange }) => {
     })).then((res) => {
       console.log(res);
       if (res.type?.includes( "fulfilled")){
-        toast.success("Successfully updated!", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 3000, // Auto-close the toast after 3 seconds
-        });
-        return
+          toast.success("Successfully updated!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 3000, // Auto-close the toast after 3 seconds
+          });
+          return
       }
 
       toast.error("Failed to update!", {
@@ -190,9 +194,13 @@ const ProjectInfoForm: React.FC<ProjectInfoFormProps> = ({ onChange }) => {
   };
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(projectActions.getProjectById({id: user?.project_id}))
+    //@ts-ignore
     dispatch(highLevelPlanActions.getHighLevelPlansByProjectId({id: user?.project_id}))
+    //@ts-ignore
     dispatch(scopeActions.getScopeByProjectId({id: user?.project_id}))
+    //@ts-ignore
     dispatch(departmentActions.getDepartments())
   },[])
 
