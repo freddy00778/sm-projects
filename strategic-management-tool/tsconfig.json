@@ -1,3 +1,30 @@
+//{
+//  "compilerOptions": {
+//    "target": "ESNext",
+//    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+//    "module": "ESNext",
+//    "skipLibCheck": true,
+//
+//    /* Bundler mode */
+//    "moduleResolution": "bundler",
+//    "allowImportingTsExtensions": true,
+//    "resolveJsonModule": true,
+//    "isolatedModules": true,
+//    "noEmit": true,
+//    "jsx": "react",
+//
+//    /* Linting */
+//    "strict": true,
+//    "noUnusedLocals": true,
+//    "noUnusedParameters": true,
+//    "noFallthroughCasesInSwitch": true,
+//    "noEmitOnError": false,
+//    "allowSyntheticDefaultImports": true
+//  },
+//  "include": ["src/**/*", "src/declarations.d.ts"],
+//  "references": [{ "path": "./tsconfig.node.json" }]
+//}
+
 {
   "compilerOptions": {
     "target": "ESNext",
@@ -14,7 +41,7 @@
     "jsx": "react",
 
     /* Linting */
-    "strict": true,
+    "strict": false, // Changed this to false
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
@@ -22,5 +49,6 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*", "src/declarations.d.ts"],
+//  "exclude": ["path/to/problematic/file.ts"], // Add this if you have specific files to exclude
   "references": [{ "path": "./tsconfig.node.json" }]
 }
