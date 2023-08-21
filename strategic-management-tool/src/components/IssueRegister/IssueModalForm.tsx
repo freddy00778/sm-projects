@@ -11,6 +11,8 @@ import {decisionActions} from "../../_store/decisons.slice";
 import {useDispatch, useSelector} from "react-redux";
 import {noteActions} from "../../_store/notes.slice";
 import {useParams} from "react-router-dom";
+import {issueActions} from "../../_store/issues.slice";
+import {toast} from "react-toastify";
 
 interface IssueModalFormProps {
   issue: string;
@@ -62,6 +64,7 @@ const IssueModalForm: React.FC<IssueModalFormProps> = ({
     {name: "Low Impact", value: "low-impact"},
   ];
   const dispatch = useDispatch()
+  const {user} = useSelector(state => state.auth)
   const {notes} = useSelector(state => state.note)
   const [selectedOption1, setSelectedOption1] = useState(options1[0]);
   const [selectedOption2, setSelectedOption2] = useState(options2[0]);
@@ -82,16 +85,36 @@ const IssueModalForm: React.FC<IssueModalFormProps> = ({
   }
 
   const handleSave = () => {
-    addData({
-      issue: issue,
-      owner: owner,
-      action: action,
-      person: person,
-      reportedDate: reportedDate,
-      options1: options1,
-      options2: options2,
-      options3: options3,
-    });
+
+      //@ts-ignore
+      dispatch(issueActions.createIssue({
+          risk: issue,
+          responsible_manager: owner,
+          date_reported: reportedDate,
+          mitigating_actions: action,
+          assigned_mitigator: person,
+          project_id: user?.project_id,
+          key_change_id: keyChangeId,
+          mitigating_actions_captured: selectedOption1.value,
+          impact_level: selectedOption2.value,
+          previous_level_impact: selectedOption3.value
+      })).then((res) => {
+          if (res?.payload?.message === "success"){
+              handleSuccessToast()
+              dispatch(issueActions.getAll({key_change_id: keyChangeId}))
+          }
+      })
+
+    // addData({
+    //   issue: issue,
+    //   owner: owner,
+    //   action: action,
+    //   person: person,
+    //   reportedDate: reportedDate,
+    //   options1: options1,
+    //   options2: options2,
+    //   options3: options3,
+    // });
     onClose();
   };
   const handleOptionSelected1 = (option1: any) => {
@@ -103,6 +126,13 @@ const IssueModalForm: React.FC<IssueModalFormProps> = ({
   const handleOptionSelected3 = (option3: any) => {
     setSelectedOption3(option3);
   }
+
+    const handleSuccessToast = () => {
+      toast.success("Successfully added an issue!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000, // Auto-close the toast after 3 seconds
+      });
+    };
 
   useEffect(() => {
       // dispatch(noteActions.getAll({key_change_id: keyChangeId}))

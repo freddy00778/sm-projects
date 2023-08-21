@@ -9,14 +9,15 @@ export interface DecisionRegister {
   decision_description?: string;
   date1?: string;
   topic?: string
-  context: string
-  forum: string
-  department: string
-  date2: string
-  approved_by: string
-  nextStep: string
-  comments: string
-  actioned_by: string
+  context?: string
+  forum?: string
+  department?: string
+  date2?: string
+  approved_by?: string
+  nextStep?: string
+  comments?: string
+  actioned_by?: string
+  project_id?: string
 }
 
 
@@ -29,7 +30,7 @@ export interface Data {
 }
 
 export interface GetInput {
-  id: string
+  id?: string
   decision_description?: string;
   date1?: string;
   topic?: string
@@ -41,20 +42,44 @@ export interface GetInput {
   nextStep?: string
   comments?: string
   actioned_by?: string
+  project_id?: string
+  page?: number
+  pageSize?: number
 }
 
 export const get = (query: () => QueryBuilder) => async (input: GetInput) => {
   return  query().select().where(input).first()
 }
 
-export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
-  const queries =  query().select()
+// export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
+//   const queries =  query().select()
+//
+//   if (input){
+//     queries.where(input)
+//   }
+//
+//   return queries.orderBy("created_at", "DESC")
+// }
 
-  if (input){
-    queries.where(input)
+export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
+  const queries = query().select();
+
+  // Remove pageSize and page from the input for filtering
+  if (input) {
+    const { pageSize, page, ...filterInput } = input;
+    queries.where(filterInput);
   }
 
-  return queries.orderBy("created_at", "DESC")
+  // Pagination logic
+  if (input?.page && input?.pageSize) {
+    const offset = (input.page - 1) * input.pageSize;
+    queries.offset(offset).limit(input.pageSize);
+  } else if (input?.pageSize){
+    //@ts-ignore
+    queries.limit(input.pageSize);
+  }
+
+  return queries.orderBy("created_at", "DESC");
 }
 
 export const insert = (query: () => QueryBuilder) => async (input: GetInput) => {

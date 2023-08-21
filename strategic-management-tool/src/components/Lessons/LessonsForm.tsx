@@ -15,6 +15,7 @@ const LessonsForm = () => {
   const dispatch = useDispatch()
   //@ts-ignore
   const {user} = useSelector(state => state.auth)
+  const {lessons} = useSelector(state => state.lessons)
   console.log("User from lessons", user )
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [data, setData] = useState<DataType[]>([]);
@@ -24,7 +25,7 @@ const LessonsForm = () => {
   const [description, setDescription] = useState("");
   const [options, setOptions] = useState([])
   const [option, setOption]   = useState(null)
-  const [lessons, setLessons]   = useState([])
+  // const [lessons, setLessons]   = useState([])
   const [submitted] = useState(false)
 
   const addData = (newData: DataType) => {
@@ -35,10 +36,7 @@ const LessonsForm = () => {
 
   const fetchLessons = () => {
     //@ts-ignore
-    dispatch(lessonActions.getLessons()).then((lessonsRes) => {
-      const lessons = lessonsRes?.payload?.data
-      setLessons(lessons)
-    })
+    dispatch(lessonActions.getLessonsByProjectId({project_id: user?.project_id}))
   }
 
   useEffect(() => {
@@ -109,7 +107,7 @@ const LessonsForm = () => {
         <div className="flex flex-col w-full px-10 h-[80%]">
           <Table
             headings={[{alias: "No", name:"No"}, {alias: "Type", name: "type_name"}, {alias:"Description", name:"description"}, {alias: "Date Logged", name:"date_logged"}, {alias:"Logged By", name:"logged_by"}]}
-            data={lessons}
+            data={lessons?.data}
             //addData={addData}
             children={
               <div className=" space-y-2">

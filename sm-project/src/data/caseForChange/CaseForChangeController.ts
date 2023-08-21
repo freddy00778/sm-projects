@@ -3,6 +3,7 @@ import {DataClient} from '../index'
 
 export interface Controller {
     get: ReturnType<typeof get>,
+    getFinalDraft: ReturnType<typeof getFinalDraft>,
     getAll: ReturnType<typeof getAll>,
     update: ReturnType<typeof update>,
     insert: ReturnType<typeof insert>,
@@ -11,6 +12,10 @@ export interface Controller {
 
 export const get = (caseForChange: Data) => async (input: GetInput) => {
     return caseForChange.get(input)
+}
+
+export const getFinalDraft = (caseForChange: Data) => async (input: GetInput) => {
+    return caseForChange.getFinalDraft(input)
 }
 
 export const getAll = (caseForChange: Data) => async (input: GetInput) => {
@@ -34,6 +39,7 @@ export async function create (data: DataClient): Promise<Controller> {
 
     return {
         get: get(caseForChange),
+        getFinalDraft: getFinalDraft(caseForChange),
         getAll: getAll(caseForChange),
         update: update(caseForChange),
         insert: insert(caseForChange),

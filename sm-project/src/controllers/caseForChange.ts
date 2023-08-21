@@ -22,8 +22,10 @@ export const getCaseForChange = catchErrors(async (req, res) => {
     }
     const type = req.query.type ? {project_id: req.params.id} : {id}
     const caseForChange = await caseForChangeHandler.get(type)
+    const project_id = req.params.id
+    const draft = await generateFinalDraft(caseForChangeHandler, project_id)
 
-    res.respond({ data: caseForChange });
+    res.respond({ data: caseForChange, draft });
 });
 
 export const addCaseForChange = catchErrors(async (req, res) => {
@@ -73,3 +75,9 @@ export const deleteCaseForChange = catchErrors(async (req, res) => {
 
     res.respond({ message: 'Case for Change deleted successfully' });
 });
+
+
+//@ts-ignore
+const generateFinalDraft = async(caseForChangeHandler, project_id) => {
+    return await caseForChangeHandler.getFinalDraft({project_id: project_id})
+}

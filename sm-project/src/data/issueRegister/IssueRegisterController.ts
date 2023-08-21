@@ -7,6 +7,7 @@ export interface Controller {
     update: ReturnType<typeof update>,
     insert: ReturnType<typeof insert>,
     deleteIssue: ReturnType<typeof deleteIssue>,
+    groupedByIssueImpactLevel: ReturnType<typeof groupedByIssueImpactLevel>,
 }
 
 export const get = (issues: Data) => async (input: GetInput) => {
@@ -15,6 +16,10 @@ export const get = (issues: Data) => async (input: GetInput) => {
 
 export const getAll = (issues: Data) => async (input?: GetInput) => {
     return issues.getAll(input)
+}
+
+export const groupedByIssueImpactLevel = (issues: Data) => async (project_id: string) => {
+    return issues.groupedByIssueImpactLevel(project_id)
 }
 
 export const update = (issues: Data) => async (input: GetInput) => {
@@ -38,6 +43,7 @@ export async function create (data: DataClient): Promise<Controller> {
         update: update(issueRegister),
         insert: insert(issueRegister),
         deleteIssue: deleteIssue(issueRegister),
+        groupedByIssueImpactLevel: groupedByIssueImpactLevel(issueRegister),
     }
 }
 

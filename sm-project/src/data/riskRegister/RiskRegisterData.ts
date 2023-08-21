@@ -27,7 +27,9 @@ export interface Data {
   update: ReturnType<typeof update>,
   insert: ReturnType<typeof insert>,
   deleteRiskRegister: ReturnType<typeof deleteRiskRegister>,
+  groupedByRiskCategory: ReturnType<typeof groupedByRiskCategory>
 }
+
 
 export interface GetInput {
   id?: string
@@ -44,21 +46,55 @@ export interface GetInput {
   note_id?: string
   key_change_id?: string
   project_id?: string
+  page?: number
+  pageSize?: number
 }
 
 export const get = (query: () => QueryBuilder) => async (input: GetInput) => {
   return  query().select().where(input).first()
 }
 
-export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
-  const queries =  query().select()
+// export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
+//   const queries =  query().select()
+//
+//   if (input){
+//     queries.where(input)
+//   }
+//
+//   return queries.orderBy("created_at", "DESC")
+// }
 
-  if (input){
-    queries.where(input)
+export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
+  const queries = query().select();
+
+  // Remove pageSize and page from the input for filtering
+  if (input) {
+    const { pageSize, page, ...filterInput } = input;
+    queries.where(filterInput);
   }
 
-  return queries.orderBy("created_at", "DESC")
+  // Pagination logic
+  if (input?.page && input?.pageSize) {
+    const offset = (input.page - 1) * input.pageSize;
+    queries.offset(offset).limit(input.pageSize);
+  } else if (input?.pageSize){
+    //@ts-ignore
+    queries.limit(input.pageSize);
+  }
+
+  return queries.orderBy("created_at", "DESC");
 }
+
+
+export const groupedByRiskCategory = (query: () => QueryBuilder) => async (project_id: string) => {
+  return query()
+      .groupBy('risk_category')
+      .select('risk_category as name')
+      .where("project_id", project_id)
+      .count('risk_category as count')
+      .orderBy('count', 'DESC');
+}
+
 
 export const insert = (query: () => QueryBuilder) => async (input: GetInput) => {
   return  (await query().insert(input, ['id']) as [{id: string}])[0]
@@ -93,7 +129,9 @@ export async function create (data: DataClient): Promise<Data> {
     update:       update(riskRegister),
     insert:       insert(riskRegister),
     deleteRiskRegister:  deleteRiskRegister(riskRegister),
+    groupedByRiskCategory: groupedByRiskCategory(riskRegister)
   }
 }
+
 
 export default {create}

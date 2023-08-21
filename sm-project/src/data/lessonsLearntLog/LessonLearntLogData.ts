@@ -42,8 +42,13 @@ export const getAll = (lessons: () => QueryBuilder) => async (input: GetInput) =
   const query =  lessons().select("LessonsLog.*", "Category.name as type_name").from("LessonsLog")
       .leftJoin("Category", "LessonsLog.type", "Category.id")
 
-  if (input){
+  if (input && !input.project_id){
     query.where(input)
+  }
+
+  if (input.project_id){
+    query.where({"LessonsLog.project_id": input.project_id })
+
   }
 
   return query.orderBy("created_at", "desc")

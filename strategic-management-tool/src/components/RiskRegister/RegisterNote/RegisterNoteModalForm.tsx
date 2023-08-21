@@ -4,6 +4,9 @@ import Button from "../../Button";
 import React, { useState } from "react";
 
 import { DataType } from "../../../../types";
+import {useDispatch, useSelector} from "react-redux";
+import {noteActions} from "../../../_store/notes.slice";
+import {useParams} from "react-router-dom";
 
 interface RegisterNoteModalFormProps {
   assessment: string;
@@ -29,24 +32,30 @@ const RegisterNoteModalForm: React.FC<RegisterNoteModalFormProps> = ({
   onClose,
 }) => {
   const options = [
-    "Select",
-    "Strategic Change",
-    "BAU Change",
-    "Annual Corporate Initiative",
+    {name: "Strategic Change", value: "strategic-change"},
+    {name: "BAU Change", value: "bau-change"},
+    {name: "Annual Corporate Initiative", value: "annual-corporate-initiative"}
   ];
   const options1 = [
-    "Select",
-    "Strategic Change",
-    "BAU Change",
-    "Annual Corporate Initiative",
+    {name: "Strategic Change", value:"strategic-change"},
+    {name: "BAU Change", value: "bau-change"},
+    {name: "Annual Corporate Initiative", value: "annual-corporate-initiative"}
   ];
+
+  //@ts-ignore
+  const {user} = useSelector(state => {
+    return state.auth;
+  })
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [selectedOption1, setSelectedOption1] = useState(options1[0]);
+  const params = useParams()
+  const keyChangeId = params["*"]
+  const dispatch = useDispatch()
 
-  const handleOptionSelected = (option: string) => {
+  const handleOptionSelected = (option: any) => {
     setSelectedOption(option);
   };
-  const handleOptionSelected1 = (option1: string) => {
+  const handleOptionSelected1 = (option1: any) => {
     setSelectedOption1(option1);
   };
   const handleSave = () => {
@@ -54,6 +63,20 @@ const RegisterNoteModalForm: React.FC<RegisterNoteModalFormProps> = ({
     const formattedDate = `${date.getDate()}-${
       date.getMonth() + 1
     }-${date.getFullYear()}`;
+
+    // console.log(`${selectedOption.name} - ${text} - ${formattedDate} - ${assessment} - ${dateLogged}`)
+    console.log(`Note Details => ${text} - Previous Risk Severity => ${selectedOption.name} - Previous Rating => ${selectedOption1.name} - Assessment => ${assessment} - date logged => ${dateLogged}`)
+    dispatch(noteActions.createNote({
+      key_change_id: keyChangeId,
+      project_id: user?.project_id,
+      date_reported: formattedDate,
+      details: text,
+      previous_risk_severity: selectedOption.value,
+      previous_rating: selectedOption1.value,
+      risk_assessment_value: assessment,
+    }))
+
+
     addData({
       No: dataLength + 1,
       Type: selectedOption,
@@ -61,6 +84,8 @@ const RegisterNoteModalForm: React.FC<RegisterNoteModalFormProps> = ({
       Date: formattedDate,
       "Logged By": assessment,
     });
+
+
     setAssessment("");
     setDateLogged("");
     setText("");

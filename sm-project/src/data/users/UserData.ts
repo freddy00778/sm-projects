@@ -47,7 +47,7 @@ export interface GetInput {
 export const get = (queryBuilder: () => QueryBuilder) => async (input: GetInput) => {
   // return  queryBuilder().select().where(input).first()
 
-  const qb = queryBuilder().select('User.*',"Project.id as project_id")
+  const qb = queryBuilder().select('User.*',"Project.id as project_id","Organisation.name as organisation_name")
       .from('User')
       .leftJoin('Organisation', 'Organisation.id', 'User.organisation_id')
       .leftJoin('Project', 'Project.organisation_id','Organisation.id')

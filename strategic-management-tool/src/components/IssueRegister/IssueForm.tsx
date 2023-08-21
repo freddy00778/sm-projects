@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import IssueModal from "./IssueModal";
 import { DataType } from "../../../types";
 import dots from "../../assets/images/dots.svg";
@@ -11,6 +11,7 @@ import {issueActions} from "../../_store/issues.slice";
 import {useParams} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import Loader from "../Loader";
+import {riskActions} from "../../_store/risks.slice";
 
 interface IssueFormProps {
   isOpen: boolean;
@@ -88,21 +89,21 @@ const IssueForm: React.FC<IssueFormProps> = ({ isOpen, onClose, addData }) => {
     addData(newData);
 
     console.log("Data from issue form", newData)
-
-    dispatch(issueActions.createIssue({
-      risk: issue,
-      responsible_manager: owner,
-      date_reported: reportedDate,
-      mitigating_actions: action,
-      assigned_mitigator: person,
-      project_id: user?.project_id,
-      key_change_id: keyChangeId
-    })).then((res) => {
-      if (res?.payload?.message === "success"){
-        handleSuccessToast()
-        dispatch(issueActions.getAll({key_change_id: keyChangeId}))
-      }
-    })
+    //
+    // dispatch(issueActions.createIssue({
+    //   risk: issue,
+    //   responsible_manager: owner,
+    //   date_reported: reportedDate,
+    //   mitigating_actions: action,
+    //   assigned_mitigator: person,
+    //   project_id: user?.project_id,
+    //   key_change_id: keyChangeId
+    // })).then((res) => {
+    //   if (res?.payload?.message === "success"){
+    //     handleSuccessToast()
+    //     dispatch(issueActions.getAll({key_change_id: keyChangeId}))
+    //   }
+    // })
 
     setDataEntries((prevDataEntries) => [...prevDataEntries, newData]);
     setIssue("");
@@ -114,12 +115,37 @@ const IssueForm: React.FC<IssueFormProps> = ({ isOpen, onClose, addData }) => {
     setReportedDate("");
   };
 
-  const handleSuccessToast = () => {
-    toast.success("Successfully added an issue!", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 3000, // Auto-close the toast after 3 seconds
-    });
-  };
+  // const handleSuccessToast = () => {
+  //   toast.success("Successfully added an issue!", {
+  //     position: toast.POSITION.TOP_RIGHT,
+  //     autoClose: 3000, // Auto-close the toast after 3 seconds
+  //   });
+  // };
+
+  const viewIssue = (id, data) => {
+    dispatch(issueActions.setClickedIssueAction({
+      type: "view",
+      id: id,
+      data
+    }))
+    // alert(`view ${id}`)
+  }
+
+  const editIssue = (id, data) => {
+    dispatch(issueActions.setClickedIssueAction({
+      type: "edit",
+      id: id,
+      data
+    }))
+  }
+
+  const deleteIssue = (id,data) => {
+    dispatch(riskActions.setClickedRiskAction({
+      type: "delete",
+      id: id,
+      data
+    }))
+  }
 
   return (
     <div className=" h-full w-full max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200 ">
@@ -165,15 +191,27 @@ const IssueForm: React.FC<IssueFormProps> = ({ isOpen, onClose, addData }) => {
                     className=" shadow-md bg-white  space-y-3 px-2 py-4 rounded-lg"
                     sideOffset={5}
                   >
-                    <DropdownMenu.Item className="flex items-center justify-between space-x-6 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover: rounded cursor-pointer">
+                    <DropdownMenu.Item
+                        onClick={() => {
+                          viewIssue(entry.id, entry)
+                        }}
+                        className="flex items-center justify-between space-x-6 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover: rounded cursor-pointer">
                       <img src={view} alt="" width={16} />
                       <h1 className=" text-sm">View</h1>
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item className="flex items-center justify-between space-x-2 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
+                    <DropdownMenu.Item
+                        onClick={() => {
+                          editIssue(entry.id, entry)
+                        }}
+                        className="flex items-center justify-between space-x-2 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
                       <img src={edit} alt="" width={13} />
                       <h1 className=" text-sm">Edit</h1>
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item className="flex items-center justify-between space-x-4 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
+                    <DropdownMenu.Item
+                        onClick={() => {
+                          deleteIssue(entry.id, entry)
+                        }}
+                        className="flex items-center justify-between space-x-4 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
                       <img src={trash} alt="" width={16} />
                       <h1 className=" text-sm">Delete</h1>
                     </DropdownMenu.Item>

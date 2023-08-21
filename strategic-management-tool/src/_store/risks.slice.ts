@@ -12,15 +12,19 @@ interface RiskState {
     risks: Risk[] | null;
     isLoading: boolean;
     error: any;
+    riskEditOpened: boolean
+    riskViewOpened: boolean
+    riskDeleteOpened: boolean
+    riskAction: any
 }
 
 // create slice
 const name = 'risks';
-const initialRiskState = createRiskInitialState();
-const riskReducers = createRiskReducers();
-const extraRiskActions = createRiskExtraActions();
+const initialRiskState  = createRiskInitialState();
+const riskReducers      = createRiskReducers();
+const extraRiskActions  = createRiskExtraActions();
 const extraRiskReducers = createRiskExtraReducers();
-const riskSlice = createSlice({
+const riskSlice         = createSlice({
     name,
     initialState: initialRiskState,
     reducers: riskReducers,
@@ -37,17 +41,41 @@ function createRiskInitialState(): RiskState {
         risk: null,
         risks: null,
         isLoading: false,
-        error: null
+        error: null,
+        riskEditOpened: false,
+        riskViewOpened: false,
+        riskDeleteOpened: false,
+        riskAction: {}
     }
 }
 
 function createRiskReducers() {
     return {
         clearRisks,
+        openRiskEditModal,
+        openRiskViewModal,
+        openRiskDeleteModal,
+        setClickedRiskAction
     };
 
     function clearRisks(state: RiskState) {
         state.risks = null;
+    }
+
+    function openRiskEditModal(state: RiskState, value  ) {
+        state.riskEditOpened = value;
+    }
+
+    function openRiskViewModal(state: RiskState, value) {
+        state.riskViewOpened = value;
+    }
+
+    function openRiskDeleteModal(state: RiskState, value) {
+        state.riskDeleteOpened = value;
+    }
+
+    function setClickedRiskAction(state: RiskState, value){
+        state.riskAction = value;
     }
 }
 
@@ -57,8 +85,8 @@ function createRiskExtraActions() {
     return {
         getAll: createAsyncThunk(
             `${name}/getAll`,
-            async ({ key_change_id }: { key_change_id: string }) => {
-                return await fetchWrapper.get(`${baseUrl}/api/v1/risks?key_change_id=${key_change_id}`);
+            async ({ key_change_id, project_id }: { key_change_id: string, project_id }) => {
+                return await fetchWrapper.get(`${baseUrl}/api/v1/risks?key_change_id=${key_change_id}&project_id=${project_id}`);
             }
         ),
 

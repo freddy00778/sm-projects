@@ -10,9 +10,27 @@ import Loader from "./Loader";
 
 const CaseForChangeForm = () => {
   const {user} = useSelector(state => state.auth)
-  const caseForChange = useSelector(state => state.caseForChange)
+  const {caseForChange} = useSelector(state => state.caseForChange)
   const {isLoading} = useSelector(state => state.caseForChange)
-  console.log("case For Change", caseForChange)
+  const caseForChangeObject = caseForChange?.draft
+  console.log("case For Change" , caseForChangeObject?.description_of_change)
+
+  const organisationNameAndDescription = `${user?.organisation_name} wants to ${caseForChangeObject?.description_of_change}.`
+  const whyChange = `We have taken this decision because ${caseForChangeObject?.why_change}.`
+  const projectNameAndImplementationDate = `${caseForChangeObject?.project_name} will be implemented on ${caseForChangeObject?.when_will_change_be_implemented}.`
+  const whoWillBeImpactedByChange = `The change will impact ${caseForChangeObject?.who_will_be_impacted_by_change}.`
+  const whoWillHelp = `We will be relying on ${caseForChangeObject?.who_will_help} to help us with implementing the change successfully.`
+  const whoWillBeMostAffectedByTheChange = `The biggest effect of the change will be on ${caseForChangeObject?.who_will_be_most_affected_by_the_change}.`
+  const firstStepHighLevePlan = `1st step in the high level plan. We will start by .`
+  const secondStepHighLevePlan = `2nd step in the high level plan. The second step is to  .`
+  const thirdStepHighLevePlan = `3rd step in the high level plan. This will be followed by  .`
+  const fourthStepHighLevePlan = `4th step in the high level plan. Finally we will  .`
+  const whatIsInItForStakeholders = `With this change, the affected stakeholders will ${caseForChangeObject?.what_is_in_it_for_the_affected_stakeholders}.`
+  const what_may_affected_stakeholders_be_concerned_about = `With this change, the affected stakeholders will ${caseForChangeObject?.what_may_affected_stakeholders_be_concerned_about}.`
+  const whatWouldYouLikeToManageTheseExpectations = `With regards to what we would like to confirm that ${caseForChangeObject?.what_would_you_like_to_manage_these_expectations}.`
+  const any_major_risk = `With regards to what we would like to confirm that ${caseForChangeObject?.any_major_risk}.`
+  const futureCommunication = `${caseForChangeObject?.future_communication}.`
+  const [draftPhrase, setDraftPhrase] = useState("")
   const dispatch = useDispatch()
   const [stakeholderBenefits, setStakeholderBenefits] = useState(caseForChange?.caseForChange?.data?.stakeholder_benefits);
   const [stakeholderConcerns, setStakeholderConcerns] = useState(caseForChange?.caseForChange?.data?.stakeholder_concerns);
@@ -21,7 +39,31 @@ const CaseForChangeForm = () => {
   const [expectationsManagementResponse, setExpectationsManagementResponse] = useState(caseForChange?.caseForChange?.data?.expectations_management_response);
   const [majorRisks, setMajorRisks] = useState(caseForChange?.caseForChange?.data?.major_risks_or_info);
   const [additionalInfoSource, setAdditionalInfoSource] = useState(caseForChange?.caseForChange?.data?.additional_info_source);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(draftPhrase);
+
+  useEffect(() => {
+    const draftSections = [
+      organisationNameAndDescription,
+      whyChange,
+      projectNameAndImplementationDate,
+      whoWillBeImpactedByChange,
+      whoWillHelp,
+      whoWillBeMostAffectedByTheChange,
+      firstStepHighLevePlan,
+      secondStepHighLevePlan,
+      thirdStepHighLevePlan,
+      fourthStepHighLevePlan,
+      whatIsInItForStakeholders,
+      what_may_affected_stakeholders_be_concerned_about,
+      whatWouldYouLikeToManageTheseExpectations,
+      any_major_risk,
+      futureCommunication,
+    ];
+    const draft = draftSections.join('\n\n');
+    setText(draft);
+    console.log("Draft", draftPhrase)
+  }, [caseForChange])
+
 
 
   const handleSuccessToast = () => {
@@ -31,13 +73,17 @@ const CaseForChangeForm = () => {
     });
   };
 
-  useEffect(() => {
+  const fetchCase = () => {
     dispatch(caseForChangeActions.getCaseForChangeByProjectId({id: user?.project_id}))
+  }
+  useEffect(() => {
+    fetchCase()
   }, [])
 
   const navigate = useNavigate();
   const handleSave = () => {
     // navigate("/project/dashboard/scope");
+    //@ts-ignore
     dispatch(caseForChangeActions.updateCaseForChange({
       project_id: user?.project_id,
       stakeholder_benefits: stakeholderBenefits,
@@ -50,11 +96,13 @@ const CaseForChangeForm = () => {
     })).then((res) => {
       // if (res?.payload){
         handleSuccessToast()
+         fetchCase()
       // }
     })
   };
   return (
       <>
+        <ToastContainer />
         {
           isLoading && <Loader />
         }
@@ -70,11 +118,12 @@ const CaseForChangeForm = () => {
           id="user-name"
           //   label="We will be relying on .... to assist us with the implementing the change successfully"
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => setText(draftPhrase)}
           type="textarea"
           className="w-full h-[400px] text-[16px] bg-primary-50 bg-opacity-20"
-          disabled={true}
-          placeholder="The Type why we want to change wants to Type what we want to change. We have taken this decision because Type why we want to change. The Type Name will be implemented on Select the implementation date from a calendar . Type Department and stakeholders will be affected by the change, and we are doing everything in our power to make this transition as smooth as possible. We will be relying on Type Buyers, Engineers, Accountants and contractors to assist us in implementing the change successfully. The biggest effect of the change will be on The productivity of Department A. We will start by abc. The second step is to def. This will be followed by ghi. Finally, we will jkl. We realise that you may be concerned about pqr. We would like to stu. We are also aware that some stakeholders may be expecting uired. In this regards we would like to www. With this change the affected stakeholders will mno. Furthermore, we would like to note that xxx. To keep you updated on progress with this change implementation, xyz"
+          // disabled={true}
+          placeholder=""
+
         />
       </div>
       <div className="flex flex-col w-full px-20 py-10 space-y-16  ">
@@ -91,7 +140,7 @@ const CaseForChangeForm = () => {
 
           <textarea
               value={stakeholderBenefits}
-              defaultValue={caseForChange?.caseForChange?.data?.stakeholder_benefits}
+              defaultValue={caseForChange?.data?.stakeholder_benefits}
               // defaultValue={"88888as"}
               onChange={(e) => setStakeholderBenefits(e.target.value)}
                     placeholder="Type in the benefits"
@@ -138,7 +187,7 @@ const CaseForChangeForm = () => {
 
                <textarea
                    value={stakeholderConcerns}
-                   defaultValue={caseForChange?.caseForChange?.data?.stakeholder_concerns}
+                   defaultValue={caseForChange?.data?.stakeholder_concerns}
                    onChange={(e) => setStakeholderConcerns(e.target.value)}
                    placeholder="Type in the effects"
                          className="w-full h-[200px]   border
@@ -187,7 +236,7 @@ const CaseForChangeForm = () => {
 
                    <textarea
                        value={concernsAddressal}
-                       defaultValue={caseForChange?.caseForChange?.data?.concerns_addressal}
+                       defaultValue={caseForChange?.data?.concerns_addressal}
                        onChange={(e) => setConcernsAddressal(e.target.value)}
                        placeholder="Type in the effects"
                              className="w-full h-[200px]   border
@@ -236,7 +285,7 @@ const CaseForChangeForm = () => {
 
                    <textarea
                        value={stakeholderPersonalExpectations}
-                       defaultValue={caseForChange?.caseForChange?.data?.stakeholder_personal_expectations}
+                       defaultValue={caseForChange?.data?.stakeholder_personal_expectations}
                        onChange={(e) => setStakeholderPersonalExpectations(e.target.value)}
                        placeholder="Type in your response"
                              className="w-full h-[200px]   border
@@ -285,7 +334,7 @@ const CaseForChangeForm = () => {
 
                    <textarea
                        value={expectationsManagementResponse}
-                       defaultValue={caseForChange?.caseForChange?.data?.expectations_management_response}
+                       defaultValue={caseForChange?.data?.expectations_management_response}
                              onChange={(e) => setExpectationsManagementResponse(e.target.value)}
                              placeholder="Type in the effects"
                              className="w-full h-[200px]   border
@@ -331,7 +380,7 @@ const CaseForChangeForm = () => {
 
                    <textarea
                        value={majorRisks}
-                       defaultValue={caseForChange?.caseForChange?.data?.major_risks_or_info}
+                       defaultValue={caseForChange?.data?.major_risks_or_info}
                              onChange={(e) => setMajorRisks(e.target.value)}
                              placeholder="Type in the effects"
                              className="w-full h-[200px]   border
@@ -376,7 +425,7 @@ const CaseForChangeForm = () => {
 
                    <textarea
                        value={additionalInfoSource}
-                       defaultValue={caseForChange?.caseForChange?.data?.additional_info_source}
+                       defaultValue={caseForChange?.data?.additional_info_source}
                        onChange={(e) => setAdditionalInfoSource(e.target.value)}
                        placeholder="Type in your response"
                              className="w-full h-[200px]   border

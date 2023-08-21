@@ -38,6 +38,7 @@ export const attachPublicRoutes = (app: express.Application): void => {
   //Project routes
   app.get('/api/v1/projects',   Auth.authorize(), projects.getProjects)
   app.get('/api/v1/projects/:id',     Auth.authorize(), projects.getProgress)
+  app.get('/api/v1/project-dashboard/:id',  Auth.authorize(), projects.getProjectDashboard)
   app.post('/api/v1/projects',   Auth.authorize(), projects.addProject)
   app.patch('/api/v1/projects',  Auth.authorize(), projects.updateProject)
   app.delete('/api/v1/projects/',Auth.authorize(), projects.deleteProgress)

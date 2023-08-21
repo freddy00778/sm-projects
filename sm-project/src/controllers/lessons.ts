@@ -25,7 +25,9 @@ export const getLessons = catchErrors(async (req, res) => {
     console.log("Body", req.params)
     // const lesson = await lessonHandler.getAll({})
 
-    const lessons = (await lessonHandler.getAll({})).map((dec, index) => {
+    const queryObject = req.query.id ? {project_id: req.query.id} : {}
+    //@ts-ignore
+    const lessons = (await lessonHandler.getAll(queryObject)).map((dec, index) => {
         return {
             No: index+1,
             created_at: humanReadableDate(dec.created_at?.toString()),

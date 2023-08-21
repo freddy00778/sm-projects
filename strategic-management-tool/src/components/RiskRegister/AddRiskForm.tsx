@@ -46,9 +46,18 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
 
   console.log("risks", risks)
 
+  // const fetchRisks = () => {
+  //   dispatch(riskActions.getAll({key_change_id: keyChangeId, project_id: user?.project_id}))
+  // }
+  //
+  // useEffect(() => {
+  //   fetchRisks()
+  // },[])
+
   useEffect(() => {
     // setDataEntries(issues?.data)
     console.log("risks from data", risks)
+    console.log("risks from data", risks?.length)
 
     risks?.data?.map(() => {
       const newData: DataType = {
@@ -84,11 +93,12 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
     console.log("Risk data", newData)
 
     //@ts-ignore
-    dispatch(riskActions.createRisk({risk: risk, responsible_manager: owner, date_reported: reportedDate, mitigating_actions: action, assigned_mitigator: person, project_id: user?.project_id, key_change_id: keyChangeId, risk_category: category, risk_assessment_value: assessment})).then((res) => {
-      if (res?.payload?.message === "success"){
-        handleSuccessToast()
-      }
-    })
+    // dispatch(riskActions.createRisk({risk: risk, responsible_manager: owner, date_reported: reportedDate, mitigating_actions: action, assigned_mitigator: person, project_id: user?.project_id, key_change_id: keyChangeId, risk_category: category, risk_assessment_value: assessment})).then((res) => {
+    //   if (res?.payload?.message === "success"){
+    //     handleSuccessToast()
+    //     fetchRisks()
+    //   }
+    // })
 
     setDataEntries((prevDataEntries) => [...prevDataEntries, newData]);
     setRisk("");
@@ -101,13 +111,38 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
     setDateLogged("");
     setReportedDate("");
   };
+  //
+  // const handleSuccessToast = () => {
+  //   toast.success("Successfully added a risk!", {
+  //     position: toast.POSITION.TOP_RIGHT,
+  //     autoClose: 3000, // Auto-close the toast after 3 seconds
+  //   });
+  // }
 
-  const handleSuccessToast = () => {
-    toast.success("Successfully added a risk!", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 3000, // Auto-close the toast after 3 seconds
-    });
-  };
+  const viewRisk = (id, data) => {
+    dispatch(riskActions.setClickedRiskAction({
+      type: "view",
+      id: id,
+      data
+    }))
+    // alert(`view ${id}`)
+  }
+
+  const editRisk = (id, data) => {
+    dispatch(riskActions.setClickedRiskAction({
+      type: "edit",
+      id: id,
+      data
+    }))
+  }
+
+  const deleteRisk = (id,data) => {
+    dispatch(riskActions.setClickedRiskAction({
+      type: "delete",
+      id: id,
+      data
+    }))
+  }
 
   return (
     <div className=" h-full w-full max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200 ">
@@ -157,17 +192,33 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
                     className=" shadow-md bg-white  space-y-3 px-2 py-4 rounded-lg"
                     sideOffset={5}
                   >
-                    <DropdownMenu.Item className="flex items-center justify-between space-x-6 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover: rounded cursor-pointer">
+                    <DropdownMenu.Item
+                        onClick={() => {
+                          viewRisk(entry.id, entry)
+                        }}
+                        className="flex items-center justify-between space-x-6 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover: rounded cursor-pointer">
                       <img src={view} alt="" width={16} />
-                      <h1 className=" text-sm">View</h1>
+                      <h1
+                          className=" text-sm">View</h1>
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item className="flex items-center justify-between space-x-2 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
+                    <DropdownMenu.Item
+                        onClick={() => {
+                          editRisk(entry.id, entry)
+                        }}
+                        className="flex items-center justify-between space-x-2 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
                       <img src={edit} alt="" width={13} />
-                      <h1 className=" text-sm">Edit</h1>
+                      <h1
+
+                          className=" text-sm">Edit</h1>
                     </DropdownMenu.Item>
-                    <DropdownMenu.Item className="flex items-center justify-between space-x-4 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
+                    <DropdownMenu.Item
+                        onClick={() => {
+                          deleteRisk(entry.id, entry)
+                        }}
+                        className="flex items-center justify-between space-x-4 py-1 px-2 hover:bg-primary-50 hover:text-primary-500 hover:rounded cursor-pointer">
                       <img src={trash} alt="" width={16} />
-                      <h1 className=" text-sm">Delete</h1>
+                      <h1
+                          className=" text-sm">Delete</h1>
                     </DropdownMenu.Item>
                   </DropdownMenu.Content>
                 </DropdownMenu.Portal>
@@ -178,11 +229,11 @@ const AddRiskForm: React.FC<AddRiskFormProps> = ({
               <p className="text-primary-400 text-xs font-medium">
                 Date Reported
               </p>
-              <p className=" text-label text-sm">{entry.reportedDate}</p>
+              <p className=" text-label text-sm">{entry.date_reported}</p>
             </div>
             <div className=" space-y-1">
               <p className="text-primary-400 text-xs font-medium">Owner</p>
-              <p className="text-label text-sm">{entry.owner}</p>
+              <p className="text-label text-sm">{entry.responsible_manager}</p>
             </div>
           </div>
         ))}

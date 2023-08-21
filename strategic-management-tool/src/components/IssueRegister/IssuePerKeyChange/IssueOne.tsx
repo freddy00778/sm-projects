@@ -1,12 +1,16 @@
 import Button from "../../Button";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { DataType } from "../../../../types";
 import risk from "../../../assets/images/riskFlag.svg";
 import IssueForm from "../IssueForm";
+import {useSelector} from "react-redux";
 
 const IssueOne = () => {
+  const {issues, issueAction} = useSelector(state => state.issue)
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [dataEntries, setDataEntries] = useState<DataType[]>([]); // Array to store all entries
+
+  console.log("Issues", issues)
 
   const onClose = () => {
     setSecondModalOpen(false);
@@ -19,6 +23,13 @@ const IssueOne = () => {
   const openModal = () => {
     setSecondModalOpen(true);
   };
+
+  console.log("Issue Action", issueAction)
+
+  useEffect(() => {
+    openModal()
+  },[issueAction])
+
   return (
     <div className="relative  h-full">
       <div className="flex h-1/4 items-center justify-between p-6">
@@ -36,7 +47,7 @@ const IssueOne = () => {
             Number of Issues
           </h1>
           <div className="flex items-center justify-center px-4 py-2 border border-border rounded-xl">
-            {dataEntries.length}
+            {issues?.data?.length}
           </div>
         </div>
       </div>

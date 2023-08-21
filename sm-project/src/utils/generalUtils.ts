@@ -24,6 +24,13 @@ export const humanReadableDate = (dateString) => {
 
     console.log(humanReadableDate); // Outputs: "30 May 2023"
 
+}
 
-
+export const unslugify = (slug) => {
+    return slug
+        ?.split(/[-_]/)           // split string on hyphens or underscores
+        .map(word =>             // map over each word
+            word.charAt(0).toUpperCase() + word.slice(1)  // capitalize the first letter of each word
+        )
+        .join(' ');              // join the words back together with spaces
 }

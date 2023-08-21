@@ -8,15 +8,15 @@ const ProjectDashboard = () => {
     //@ts-ignore
     const {user} = useSelector(state => state.auth)
     //@ts-ignore
-    const {projects} = useSelector(state => state.project)
+    const {projects,project} = useSelector(state => state.project)
     const dispatch = useDispatch()
 
     useEffect(() => {
         //@ts-ignore
-        dispatch(projectActions.getProjectsByOrgId({id: user?.organisation_id}))
+        dispatch(projectActions.getProjectById({id: user?.project_id}))
     },[])
 
-    console.log("Project", projects)
+    console.log("Project", project?.project)
 
   return (
     <div className="flex flex-col w-full h-full">
@@ -27,13 +27,13 @@ const ProjectDashboard = () => {
         {/*{ProjectData.map(({ id, title, name }) => (*/}
           <div
             className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10"
-            key={projects?.data?.[0].id}
+            key={project?.project?.id}
           >
             <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
                 Type of Project
             </div>
             <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
-                {projects?.data?.[0].project_name}
+                {project?.project?.project_name}
             </h1>
           </div>
 
@@ -43,7 +43,7 @@ const ProjectDashboard = () => {
                   Change Approach
               </div>
               <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
-                  {unslugify(projects?.data?.[0].type)}
+                  {unslugify(project?.project?.type)}
               </h1>
           </div>
 
@@ -53,9 +53,82 @@ const ProjectDashboard = () => {
                   Change Complexity
               </div>
               <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
-                  {unslugify(projects?.data?.[0].complexity_of_change)}
+                  {unslugify(project?.project?.complexity_of_change)}
               </h1>
           </div>
+
+
+          <div
+              className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10">
+              <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
+                  Change Activity Level
+              </div>
+              <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
+
+              </h1>
+          </div>
+
+          <div
+              className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10">
+              <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
+                  Change Gear
+              </div>
+              <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
+
+              </h1>
+          </div>
+
+          <div
+              className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10">
+              <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
+                  Stage of Completion
+              </div>
+              <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
+
+              </h1>
+          </div>
+
+
+          <div
+              className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10">
+              <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
+                  Change Process
+              </div>
+              <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
+
+              </h1>
+          </div>
+
+          <div
+              className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10">
+              <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
+                  Preliminary Budget Requirement
+              </div>
+              <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
+
+              </h1>
+          </div>
+
+          <div
+              className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10">
+              <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
+                  Allocated CM Budget
+              </div>
+              <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
+
+              </h1>
+          </div>
+
+          <div
+              className="flex flex-col justify-start bg-white h-44 w-72 rounded-xl shadow-md mt-10">
+              <div className="border-b py-4 border-b-zinc-100 bg-primary-50 bg-opacity-50 text-primary-500 flex items-center px-4 text-[14px] rounded-tl-xl rounded-tr-xl">
+                  CM Budget Status
+              </div>
+              <h1 className="px-4 text-[30px] w-48 font-medium pt-2">
+
+              </h1>
+          </div>
+
         {/*))}*/}
       </div>
     </div>

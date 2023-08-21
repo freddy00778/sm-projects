@@ -1,14 +1,17 @@
 import * as React from "react"
 import { RiskData } from "../data/RiskData";
+import {useSelector} from "react-redux";
 
 const RiskInfo = () => {
+    const {project} = useSelector(state => state.project)
+    console.log("Reisk info", project)
   return (
     <div className="flex flex-col w-full h-full py-20 space-y-6">
       <div className="flex items-center border-b border-b-zinc-100  h-12">
         Risks, Issues & Decisions
       </div>
       <div className="flex w-full h-full py-6 flex-wrap gap-10 items-start justify-between px-8">
-        {RiskData.map(({ id, topTitle, title, riskContent, total }) => (
+        {project?.riskData?.map(({ id, topTitle, title, riskContent, total }) => (
           <div key={id}>
             <h1 className="text-[20px] font-medium">{topTitle}</h1>
             <div className="flex flex-col  justify-start bg-white  w-72 rounded-xl shadow-md mt-10 py-4 ">

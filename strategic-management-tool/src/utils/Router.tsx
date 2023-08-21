@@ -329,38 +329,6 @@ export const router = createBrowserRouter([
             path: "/project/dashboard/riskregister/*",
             element: <RiskOne />,
           },
-          // {
-          //   path: "/project/dashboard/riskregister/two",
-          //   element: <RiskTwo />,
-          // },
-          // {
-          //   path: "/project/dashboard/riskregister/three",
-          //   element: <RiskThree />,
-          // },
-          // {
-          //   path: "/project/dashboard/riskregister/four",
-          //   element: <RiskFour />,
-          // },
-          // {
-          //   path: "/project/dashboard/riskregister/five",
-          //   element: <RiskFive />,
-          // },
-          // {
-          //   path: "/project/dashboard/riskregister/six",
-          //   element: <RiskSix />,
-          // },
-          // {
-          //   path: "/project/dashboard/riskregister/seven",
-          //   element: <RiskSeven />,
-          // },
-          // {
-          //   path: "/project/dashboard/riskregister/eight",
-          //   element: <RiskEight />,
-          // },
-          // {
-          //   path: "/project/dashboard/riskregister/nine",
-          //   element: <RiskNine />,
-          // },
         ],
       },
       {
@@ -373,32 +341,14 @@ export const router = createBrowserRouter([
             path: "/project/dashboard/issueregister/*",
             element: <IssueOne />,
           },
-          // {
-          //   path: "/project/dashboard/issueregister/two",
-          //   element: <IssueTwo />,
-          // },
-          // {
-          //   path: "/project/dashboard/issueregister/three",
-          //   element: <IssueThree />,
-          // },
-          // {
-          //   path: "/project/dashboard/issueregister/four",
-          //   element: <IssueFour />,
-          // },
-          // {
-          //   path: "/project/dashboard/issueregister/five",
-          //   element: <IssueFive />,
-          // },
         ],
       },
       {
         path: "/project/dashboard/decisionregister",
-        // element: <DecisionRegister />,
         element: <PrivateRoute isAuthenticated={isAuthenticated}><DecisionRegister /></PrivateRoute>,
       },
       {
         path: "/project/dashboard/lessons",
-        // element: <Lessons />,
         element: <PrivateRoute isAuthenticated={isAuthenticated}><Lessons /></PrivateRoute>,
 
       },
@@ -406,7 +356,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/manager/dashboard/",
-    // element: <ManagerDashboardLayout />,
     element: <PrivateRoute isAuthenticated={isAuthenticated}><ManagerDashboardLayout /></PrivateRoute>,
     children: [
       {
@@ -429,7 +378,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/executive/dashboard/",
-    // element: <ExecutiveDashboardLayout />,
     element: <PrivateRoute isAuthenticated={isAuthenticated}><ExecutiveDashboardLayout /></PrivateRoute>,
 
     children: [

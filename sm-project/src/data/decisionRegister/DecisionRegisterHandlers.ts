@@ -24,14 +24,14 @@ export const deleteRegister = (decisions: Controller) => async (input: GetInput)
 }
 
 export async function create (data: DataClient) {
-    const scopes = await UserController.create(data)
+    const decisions = await UserController.create(data)
 
     return {
-        get: get(scopes),
-        getAll: getAll(scopes),
-        update: update(scopes),
-        insert: insert(scopes),
-        deleteRegister: deleteRegister(scopes)
+        get: get(decisions),
+        getAll: getAll(decisions),
+        update: update(decisions),
+        insert: insert(decisions),
+        deleteRegister: deleteRegister(decisions)
     }
 }
 

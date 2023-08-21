@@ -10,6 +10,7 @@ import {decisionActions} from "../../_store/decisons.slice";
 import {userActions} from "../../_store/users.slice";
 
 const DecisionForm = () => {
+    const { user } = useSelector(state => state.auth)
     const { decisions } = useSelector(state => state.decision)
     const [secondModalOpen, setSecondModalOpen] = useState(false);
     const [data, setData] = useState<DataType[]>([]);
@@ -48,7 +49,7 @@ const DecisionForm = () => {
     };
 
     const fetchDecisions = () => {
-        dispatch(decisionActions.getAll({project_id: ""})).then((resp) => {
+        dispatch(decisionActions.getAll({project_id: user?.project_id})).then((resp) => {
             console.log("Decision data", resp.payload.data)
             setData(resp.payload.data)
         })

@@ -11,6 +11,10 @@ export const getAll = (issues: Controller) => async (input?: GetInput) => {
     return issues.getAll(input)
 }
 
+export const groupedByIssueImpactLevel = (issues: Controller) => async (project_id: string) => {
+    return issues.groupedByIssueImpactLevel(project_id)
+}
+
 export const update = (issues: Controller) => async (input: GetInput) => {
     return issues.update(input)
 }
@@ -32,6 +36,7 @@ export async function create (data: DataClient) {
         update: update(issueRegister),
         insert: insert(issueRegister),
         deleteRegister: deleteRegister(issueRegister),
+        groupedByIssueImpactLevel: groupedByIssueImpactLevel(issueRegister)
     }
 }
 

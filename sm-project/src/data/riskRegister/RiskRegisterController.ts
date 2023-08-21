@@ -7,6 +7,7 @@ export interface Controller {
     update: ReturnType<typeof update>,
     insert: ReturnType<typeof insert>,
     deleteRisk: ReturnType<typeof deleteRisk>,
+    groupedByRiskCategory: ReturnType<typeof groupedByRiskCategory>,
 }
 
 export const get = (risks: Data) => async (input: GetInput) => {
@@ -15,6 +16,10 @@ export const get = (risks: Data) => async (input: GetInput) => {
 
 export const getAll = (risks: Data) => async (input?: GetInput) => {
     return risks.getAll(input)
+}
+
+export const groupedByRiskCategory = (risks: Data) => async (project_id) => {
+    return risks.groupedByRiskCategory(project_id)
 }
 
 export const update = (risks: Data) => async (input: GetInput) => {
@@ -38,6 +43,7 @@ export async function create (data: DataClient): Promise<Controller> {
         update: update(riskRegister),
         insert: insert(riskRegister),
         deleteRisk: deleteRisk(riskRegister),
+        groupedByRiskCategory: groupedByRiskCategory(riskRegister),
     }
 }
 

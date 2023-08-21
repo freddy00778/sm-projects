@@ -5,6 +5,7 @@ import RiskRegisterHandlers from "../data/riskRegister/RiskRegisterHandlers";
 export const getRisks = catchErrors(async (req, res) => {
     const data = await DataProvider.create()
     const riskRegisterHandler = await RiskRegisterHandlers.create(data)
+    // const project_id = req.query.project_id
     console.log("body", req.query)
 
     let risks;

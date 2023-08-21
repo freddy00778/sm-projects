@@ -12,6 +12,8 @@ interface IssueState {
     issues: Issue[] | null;
     isLoading: boolean;
     error: any;
+    issueAction: any
+
 }
 
 // create slice
@@ -37,17 +39,23 @@ function createIssueInitialState(): IssueState {
         issue: {},
         issues: [],
         isLoading: false,
-        error: null
+        error: null,
+        issueAction: {}
     }
 }
 
 function createIssueReducers() {
     return {
         clearIssues,
+        setClickedIssueAction
     };
 
     function clearIssues(state: IssueState) {
         state.issues = null;
+    }
+
+    function setClickedIssueAction(state: RiskState, value){
+        state.issueAction = value;
     }
 }
 

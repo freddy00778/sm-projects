@@ -1,8 +1,12 @@
 /* tslint:disable await-promise */
 import {QueryBuilder} from 'knex'
-
 import {DataClient} from '../index'
 import {Database} from '../../config'
+
+// export interface PaginationInput {
+//   page?: number;         // The page number, starts from 1.
+//   pageSize?: number;     // The number of items per page.
+// }
 
 export interface IssueRegister {
   id?: string
@@ -28,6 +32,7 @@ export interface Data {
   update: ReturnType<typeof update>,
   insert: ReturnType<typeof insert>,
   deleteIssueRegister: ReturnType<typeof deleteIssueRegister>,
+  groupedByIssueImpactLevel: ReturnType<typeof groupedByIssueImpactLevel>,
 }
 
 export interface GetInput {
@@ -45,20 +50,74 @@ export interface GetInput {
   note_id?: string
   key_change_id?: string
   project_id?: string
+  pageSize?: number
+  page?: number
 }
 
 export const get = (query: () => QueryBuilder) => async (input: GetInput) => {
   return  query().select().where(input).first()
 }
 
-export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
-  const queries =  query().select()
+// export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
+//   const queries =  query().select()
+//
+//   if (input){
+//     queries.where(input)
+//   }
+//
+//   return queries.orderBy("created_at", "DESC")
+// }
 
-  if (input){
-    queries.where(input)
+// export interface GetAllInput extends GetInput {}
+
+// export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
+//   const queries = query().select();
+//
+//   // Filter based on input
+//   if (input) {
+//     queries.where(input);
+//   }
+//
+//   // Pagination logic
+//   if (input?.page && input?.pageSize) {
+//     const offset = (input.page - 1) * input.pageSize;
+//     queries.offset(offset).limit(input.pageSize);
+//   }else if (input?.page){
+//     //@ts-ignore
+//     queries.limit(input.pageSize);
+//   }
+//
+//   return queries.orderBy("created_at", "DESC");
+// }
+
+export const getAll = (query: () => QueryBuilder) => async (input?: GetInput) => {
+  const queries = query().select();
+
+  // Remove pageSize and page from the input for filtering
+  if (input) {
+    const { pageSize, page, ...filterInput } = input;
+    queries.where(filterInput);
   }
 
-  return queries.orderBy("created_at", "DESC")
+  // Pagination logic
+  if (input?.page && input?.pageSize) {
+    const offset = (input.page - 1) * input.pageSize;
+    queries.offset(offset).limit(input.pageSize);
+  } else if (input?.pageSize){
+    //@ts-ignore
+    queries.limit(input.pageSize);
+  }
+
+  return queries.orderBy("created_at", "DESC");
+}
+
+export const groupedByIssueImpactLevel = (query: () => QueryBuilder) => async (project_id: string) => {
+  return query()
+      .groupBy('impact_level')
+      .select('impact_level as name')
+      .where("project_id", project_id)
+      .count('impact_level as count')
+      .orderBy('count', 'DESC');
 }
 
 export const insert = (query: () => QueryBuilder) => async (input: GetInput) => {
@@ -94,6 +153,7 @@ export async function create (data: DataClient): Promise<Data> {
     update:       update(issueRegister),
     insert:       insert(issueRegister),
     deleteIssueRegister:  deleteIssueRegister(issueRegister),
+    groupedByIssueImpactLevel:  groupedByIssueImpactLevel(issueRegister),
   }
 }
 

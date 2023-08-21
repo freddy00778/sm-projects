@@ -6,6 +6,10 @@ export const get = (caseForChange: Controller) => async (input: GetInput) => {
     return caseForChange.get(input)
 }
 
+export const getFinalDraft = (caseForChange: Controller) => async (input: GetInput) => {
+    return caseForChange.getFinalDraft(input)
+}
+
 export const getAll = (caseForChange: Controller) => async (input: GetInput) => {
     return caseForChange.getAll(input)
 }
@@ -27,6 +31,7 @@ export async function create (data: DataClient) {
 
     return {
         get: get(caseForChanges),
+        getFinalDraft: getFinalDraft(caseForChanges),
         getAll: getAll(caseForChanges),
         update: update(caseForChanges),
         insert: insert(caseForChanges),

@@ -23,6 +23,10 @@ export const deleteRegister = (risks: Controller) => async (input: GetInput) => 
     return risks.deleteRisk(input)
 }
 
+export const groupedByRiskCategory = (risks: Controller) => async (project_id: string) => {
+    return risks.groupedByRiskCategory(project_id)
+}
+
 export async function create (data: DataClient) {
     const riskRegister = await RiskController.create(data)
 
@@ -32,6 +36,7 @@ export async function create (data: DataClient) {
         update: update(riskRegister),
         insert: insert(riskRegister),
         deleteRegister: deleteRegister(riskRegister),
+        groupedByRiskCategory: groupedByRiskCategory(riskRegister),
     }
 }
 

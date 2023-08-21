@@ -7,6 +7,7 @@ interface Lesson {
 
 interface LessonState {
     lesson: Lesson | null;
+    lessons: Lesson[] | null;
     isLoading: boolean;
     error: any;
 }
@@ -17,12 +18,17 @@ const baseUrl = import.meta.env.VITE_API_ENDPOINT;
 
 const initialState: LessonState = {
     lesson: null,
+    lessons: null,
     isLoading: false,
     error: null
 };
 
 const getLessons = createAsyncThunk(`${lessonName}/getLessons`, async () => {
     return await fetchWrapper.get(`${baseUrl}/api/v1/lessons`);
+});
+
+const getLessonsByProjectId = createAsyncThunk(`${lessonName}/getLessons`, async ({project_id}) => {
+    return await fetchWrapper.get(`${baseUrl}/api/v1/lessons?id=${project_id}&type=project`);
 });
 
 const getLessonById = createAsyncThunk(`${lessonName}/getLessonById`, async ({ id }: { id: string }) => {
@@ -59,6 +65,15 @@ const lessonSlice = createSlice({
             .addCase(getLessonById.rejected, (state, action) => {
                 state.error = action.payload;
             })
+
+            .addCase(getLessonsByProjectId.fulfilled, (state, action) => {
+                state.lessons = action.payload;
+                state.error = null;
+            })
+            .addCase(getLessonsByProjectId.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+
             .addCase(createLesson.fulfilled, (state, action) => {
                 const lesson = action.payload;
                 state.lesson = lesson;
@@ -87,6 +102,7 @@ export const { clearLessons } = lessonSlice.actions;
 export const lessonActions = {
     getLessons,
     getLessonById,
+    getLessonsByProjectId,
     createLesson,
     deleteLesson,
     updateLesson,

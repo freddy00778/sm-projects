@@ -3,11 +3,15 @@ import InputField from "../InputField";
 import InputDropdown from "../InputDropdown";
 import Button from "../Button";
 import { DataType } from "../../../types";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Table from "../Table";
 import lesson from "../../assets/images/lessons-log.svg";
 import cancel from "../../assets/images/cancel.svg";
 import RegisterNoteModal from "./RegisterNote/RegisterNoteModal";
+import {useDispatch, useSelector} from "react-redux";
+import {riskActions} from "../../_store/risks.slice";
+import {toast} from "react-toastify";
+import {useParams} from "react-router-dom";
 
 interface AddKeyChangeFormProps {
   risk: string;
@@ -74,12 +78,19 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
     {name: "Negligible Impact", value: "negligible-impact"}
   ];
 
+  const {user} = useSelector(state => state.auth)
+  const {riskAction} = useSelector(state => state.risk)
+  const riskPayloadObject = riskAction?.payload?.data
   const [selectedOption1, setSelectedOption1] = useState(options1[0]);
   const [selectedOption2, setSelectedOption2] = useState(options2[0]);
   const [selectedOption3, setSelectedOption3] = useState(options3[0]);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [data1, setData1] = useState<DataType[]>([]);
   const [text, setText] = useState("");
+  const params = useParams()
+  const keyChangeId = params["*"]
+  const dispatch = useDispatch()
+
   const addData1 = (newData: DataType) => {
     setData1((prevData) => [...prevData, newData]);
   };
@@ -89,9 +100,54 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
   };
   const handleSave = () => {
       //@ts-ignore
-    addData({risk: risk, owner: owner, action: action, person: person, category: category, assessment: assessment, reportedDate: reportedDate, options1: options1, options2: options2, options3: options3,});
-    onClose();
+    // addData({risk: risk, owner: owner, action: action, person: person, category: category, assessment: assessment, reportedDate: reportedDate, options1: options1, options2: options2, options3: options3,});
+
+    //@ts-ignore
+    dispatch(riskActions.createRisk({
+      date_reported: reportedDate,
+      risk: risk,
+      responsible_manager: owner,
+      mitigating_actions: action,
+      mitigating_actions_captured: selectedOption1.value,
+      assigned_mitigator: person,
+      risk_category: selectedOption2.value,
+      category_value: category,
+      risk_assessment_value: assessment,
+      impact_level: selectedOption3.value,
+      impact_level_risk_category: selectedOption3.value,
+      project_id: user?.project_id,
+      key_change_id: keyChangeId,
+    })).then((res) => {
+      if (res?.payload?.message === "success"){
+        handleSuccessToast()
+        fetchRisks()
+        onClose();
+      }else{
+        toast.error("Failed to save!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000, // Auto-close the toast after 3 seconds
+        });
+      }
+    })
   };
+
+  const fetchRisks = () => {
+    // dispatch(riskActions.getAll({key_change_id: keyChangeId, project_id: user?.project_id}))
+  }
+
+  useEffect(() => {
+    fetchRisks()
+  },[])
+
+
+  const handleSuccessToast = () => {
+    toast.success("Successfully added a risk!", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000, // Auto-close the toast after 3 seconds
+    });
+  }
+
+
   const handleOptionSelected1 = (option1: any) => {
     setSelectedOption1(option1);
   };
@@ -101,6 +157,7 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
   const handleOptionSelected3 = (option3: any) => {
     setSelectedOption3(option3);
   };
+
   return (
     <div className="flex flex-col space-y-16 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200">
       <InputField
@@ -184,6 +241,7 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
         <InputField
           id="date"
           value={reportedDate}
+          defaultValue={riskPayloadObject?.date_reported}
           onChange={(e) => setReportedDate(e.target.value)}
           type="datepicker"
           className="w-full m-0"
@@ -211,6 +269,7 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
         id="change"
         label="Risk Assessment Value"
         value={assessment}
+        defaultValue={riskPayloadObject?.risk}
         onChange={(e) => setAssessment(e.target.value)}
         type="text"
         placeholder="Risk Assessment Value"
@@ -230,27 +289,28 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
           Add Notes
         </Button>
       </div>
-      <div className="relative">
-        <div className="flex flex-col w-full  h-[100%]">
-          <Table
-            headings={[
-              "Date",
-              "Notes",
-              "Previous RS",
-              "Previous Rating",
-              "Risk Assessment",
-            ]}
-            data={data1}
-            //addData={addData}
-            children={
-              <div className=" space-y-2">
-                <img src={lesson} alt="lessons" width={140} />
-                <h1 className="text-[18px]">No Notes</h1>
-              </div>
-            }
-          />
-        </div>
-      </div>
+      {/*<div className="relative">*/}
+      {/*  <div className="flex flex-col w-full  h-[100%]">*/}
+
+          {/*<Table*/}
+          {/*  headings={[*/}
+          {/*    "Date",*/}
+          {/*    "Notes",*/}
+          {/*    "Previous RS",*/}
+          {/*    "Previous Rating",*/}
+          {/*    "Risk Assessment",*/}
+          {/*  ]}*/}
+          {/*  data={data1}*/}
+          {/*  //addData={addData}*/}
+          {/*  children={*/}
+          {/*    <div className=" space-y-2">*/}
+          {/*      <img src={lesson} alt="lessons" width={140} />*/}
+          {/*      <h1 className="text-[18px]">No Notes</h1>*/}
+          {/*    </div>*/}
+          {/*  }*/}
+          {/*/>*/}
+        {/*</div>*/}
+      {/*</div>*/}
       <div>
         <RegisterNoteModal
           isOpen={secondModalOpen}
