@@ -2,6 +2,11 @@ import { catchErrors } from '../errors';
 import DataProvider from "../data/DataProvider";
 import StakeholderHandlers from "../data/stakeholder/StakeholderHandlers";
 import KeyChangeDepartmentHandlers from "../data/keychangeDepartment/KeyChangeDepartmentHandlers";
+import StakeholderChangeDriverDepartmentHandlers
+    from "../data/stakeholderChangeDriverDepartment/StakeholderChangeDriverDepartmentHandlers";
+import AffectedStakeholderDepartmentHandlers
+    from "../data/affectedStakeholderDepartment/AffectedStakeholderDepartmentHandlers";
+import AffectedStakeholderHandlers from "../data/affectedStakeholder/AffectedStakeholderHandlers";
 
 
 export const getStakeholders = catchErrors(async (req, res) => {
@@ -16,6 +21,23 @@ export const getStakeholders = catchErrors(async (req, res) => {
         stakeholders = await stakeholderHandler.getAll({key_change_id: req.query.id?.toString()});
     }else {
         stakeholders = await stakeholderHandler.getAll({});
+    }
+
+    res.respond({ data: stakeholders });
+});
+
+export const getAffectedStakeholders = catchErrors(async (req, res) => {
+    const data = await DataProvider.create()
+    const affectedStakeholderHandler = await AffectedStakeholderHandlers.create(data)
+
+    console.log("Body", req.query)
+
+    let stakeholders;
+
+    if (req.query.id){
+        stakeholders = await affectedStakeholderHandler.getAll({key_change_id: req.query.id?.toString()});
+    }else {
+        stakeholders = await affectedStakeholderHandler.getAll({});
     }
 
     res.respond({ data: stakeholders });
@@ -104,6 +126,119 @@ export const addStakeholder = catchErrors(async (req, res) => {
 
     // const stakeholder = await stakeholderHandler.insert(stakeholderData);
     // res.respond({ stakeholder });
+})
+
+export const insertSingleStakeholder = catchErrors(async (req, res) => {
+    const stakeholderData = req.body;
+
+    if (!stakeholderData) {
+        return res.status(400).send("Invalid or missing stakeholder data");
+    }
+
+    try {
+        const data = await DataProvider.create();
+        const stakeholderHandler = await StakeholderHandlers.create(data);
+        await stakeholderHandler.insert({
+            key_change_id: stakeholderData.key_change_id,
+            impacted_parties: req.body.impacted_parties,
+            project_id: stakeholderData?.project_id,
+            necessary_information: stakeholderData?.necessary_information
+        });
+
+        return res.status(200).send({ status: "Success", data: stakeholderData });
+
+    } catch (error) {
+        console.error("Error processing stakeholder data:", error);
+        return res.status(500).send("Internal server error");
+    }
+
+    // const stakeholder = await stakeholderHandler.insert(stakeholderData);
+    // res.respond({ stakeholder });
+})
+
+export const addChangeDriverDepartments = catchErrors(async (req, res) => {
+    const stakeholderData = req.body;
+
+    if (!stakeholderData) {
+        return res.status(400).send("Invalid or missing stakeholder data");
+    }
+
+    try {
+        const data = await DataProvider.create();
+        const StakeholderChangeDriverDepartmentHandler = await StakeholderChangeDriverDepartmentHandlers.create(data);
+
+        await StakeholderChangeDriverDepartmentHandler.deleteChangeDriver({
+            key_change_id: stakeholderData.key_change_id
+        })
+        for (const dpt of req.body.departmentIds){
+            await StakeholderChangeDriverDepartmentHandler.insert({
+                department_id: dpt.value,
+                key_change_id: stakeholderData.key_change_id,
+                project_id: stakeholderData?.project_id
+        });
+        }
+
+        return res.status(200).send({ status: "Success" });
+
+    } catch (error) {
+        console.error("Error processing stakeholder data:", error);
+        return res.status(500).send("Internal server error");
+    }
+})
+
+export const addAffectedStakeholderDepartments = catchErrors(async (req, res) => {
+    const stakeholderData = req.body;
+
+    if (!stakeholderData) {
+        return res.status(400).send("Invalid or missing stakeholder data");
+    }
+
+    try {
+        const data = await DataProvider.create();
+        const affectedStakeholderDepartmentHandler = await AffectedStakeholderDepartmentHandlers.create(data);
+
+        await affectedStakeholderDepartmentHandler.deleteChangeDriver({
+            key_change_id: stakeholderData.key_change_id
+        })
+        for (const dpt of req.body.departmentIds){
+            await affectedStakeholderDepartmentHandler.insert({
+                department_id: dpt.value,
+                key_change_id: stakeholderData.key_change_id,
+                project_id: stakeholderData?.project_id
+        });
+        }
+
+        return res.status(200).send({ status: "Success" });
+
+    } catch (error) {
+        console.error("Error processing stakeholder data:", error);
+        return res.status(500).send("Internal server error");
+    }
+})
+
+export const addAffectedStakeholder = catchErrors(async (req, res) => {
+    const stakeholderData = req.body;
+
+    if (!stakeholderData) {
+        return res.status(400).send("Invalid or missing stakeholder data");
+    }
+
+    try {
+        const data = await DataProvider.create();
+        const affectedStakeholderHandler = await AffectedStakeholderHandlers.create(data);
+
+            await affectedStakeholderHandler.insert({
+                name: stakeholderData.name,
+                key_change_id: stakeholderData.key_change_id,
+                project_id: stakeholderData?.project_id
+        });
+
+        return res.status(200).send({ status: "Success" });
+
+    } catch (error) {
+        console.error("Error processing stakeholder data:", error);
+        return res.status(500).send("Internal server error");
+    }
 })
 
 

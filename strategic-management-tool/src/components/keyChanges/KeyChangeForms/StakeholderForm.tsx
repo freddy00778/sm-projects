@@ -1,9 +1,13 @@
 import InputField from "../../InputField";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import DisplayValuesComponent from "../../DisplayValuesComponent";
 import Button from "../../Button";
 
 import DynamicFieldSet from "../../DynamicFieldSet";
+import MultiSelectDropdown from "../../MultiSelectDropdown";
+import {stakeholderActions} from "../../../_store/stakeholders.slice";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
 interface StakeholderFormProps {
   onChange?: (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -34,11 +38,41 @@ const defaultDivision: Division = {
 };
 
 const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
+  const {user} = useSelector(state => state.auth)
+  const {affectedStakeholders} = useSelector(state => state.stakeholder)
+  const params = useParams()
+  const keyChangeId = params["*"]
   const [inputValue, setInputValue] = useState("");
-
   const [displayValues, setDisplayValues] = useState<string[]>([]);
-
   const [divisions, setDivisions] = useState<Division[]>([defaultDivision]);
+  const [departmentOptions, setDepartmentOptions] = useState([])
+  const [defaultDepartmentOptions, setDefaultDepartmentOptions] = useState([])
+  const {departments} = useSelector(state => state.department)
+
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    dispatch(stakeholderActions.getStakeholdersByKeyChangeId({id: keyChangeId}));
+    dispatch(stakeholderActions.getAffectedStakeholders({key_change_id: keyChangeId}));
+  }, [keyChangeId]);
+
+  useEffect(() => {
+    if (affectedStakeholders?.data) {
+      const newDisplayValues = affectedStakeholders.data.map(stk => stk?.name).flat();
+      setDisplayValues(newDisplayValues);
+    }
+  }, [affectedStakeholders]);
+
+  useEffect(() => {
+    const mappedDepartments = departments?.data?.map((dpt)=> {
+      return {
+        name: dpt.name,
+        value: dpt.id
+      }
+    })
+    setDepartmentOptions(mappedDepartments)
+  },[departments])
 
   const handleInputChange = (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -47,8 +81,15 @@ const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
     onChange?.(e);
   };
 
+
+
   const handleKeyPress = (value: string) => {
     setDisplayValues([...displayValues, value]);
+    dispatch(stakeholderActions.addAffectedStakeholder({
+      name: value,
+      key_change_id: keyChangeId,
+      project_id: user?.project_id
+    }))
     setInputValue("");
   };
 
@@ -62,8 +103,18 @@ const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
     setDivisions([...divisions, defaultDivision]);
   };
 
+  const handleSelectedOptions = (options) => {
+    // setSelectedDepartments(options);
+    // console.log("Options", options)
+    // dispatch(stakeholderActions.addDepartments({
+    //   departmentIds: options,
+    //   key_change_id: keyChangeId,
+    //   project_id: user?.project_id
+    // }))
+  };
+
   return (
-      <div className="flex flex-col w-full h-full overflow-y-auto max-h-[300px] scrollbar-thin scrollbar-thumb-zinc-200">
+      <div className="flex flex-col w-full h-full overflow-y-auto max-h-[350px] scrollbar-thin scrollbar-thumb-zinc-200">
         <div className="flex flex-col w-full px-10 py-10  space-y-16  ">
           <div className="w-full flex items-center border-b border-b-border py-0">
             <h1 className="text-[20px]">
@@ -83,41 +134,29 @@ const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
                 className="w-full "
                 characterLimit={120}
             />
-            <div className="mt-4">
+            <div className="mt-20 mb-30">
               <DisplayValuesComponent
                   displayValues={displayValues}
                   handleDeleteValue={handleDeleteValue}
               />
             </div>
+
           </div>
         </div>
-        <div className="flex flex-col w-full px-10 py-4  space-y-16  ">
+
+        <div className="flex flex-col w-full px-10 py-4  space-y-16 -mt-10  ">
           <div className="flex w-full items-center justify-between border-b py-2 border-border border-opacity-20">
             <h1>Division/Department/Unit</h1>
-            <Button
-                size="md"
-                variant="primary"
-                onClick={addDivision}
-                type="submit"
-                className="w-[25%] m-0 bg-primary-500 rounded-lg"
-            >
-              Add
-            </Button>
           </div>
-          <div className="flex flex-col h-full w-full space-y-8 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200">
-            <DynamicFieldSet
-                data={divisions}
-                setData={setDivisions}
-                dataStructure={defaultStructure}
-                idBase="benefits"
-                labels={{
-                  content: "Division/Department/Unit",
-                }}
-                placeholders={{
-                  content: "Enter the department name",
-                }}
-                characterLimits={characterLimits}
-                width={20}
+          <div
+              className=" flex flex-col h-full w-full space-y-8 overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-200">
+            <MultiSelectDropdown
+                className={`-mt-1`}
+                defaultOptions={defaultDepartmentOptions}
+                options={departmentOptions}
+                onOptionsSelected={handleSelectedOptions}
+                id={"benefits"}
+                label={"Division/Department/Unit"}
             />
           </div>
         </div>
@@ -126,7 +165,7 @@ const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
           <Button
               variant="primary"
               size="lg"
-              onClick={() => alert("Objective Saved")}
+              onClick={() => {}}
               className="rounded-lg w-[40%] bg-primary-500"
               type="button"
           >

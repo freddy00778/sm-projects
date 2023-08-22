@@ -44,10 +44,12 @@ const KeyChangesPage = () => {
   }
 
   const handleSave = (newData: DataType) => {
-    if (!newData.title || !newData.value || !newData.asIs || !newData.toBe ){
-      handleErrorToast()
-      return
-    }
+    // if (!newData.title || !newData.value || !newData.asIs || !newData.toBe ){
+    //   handleErrorToast()
+    //   return
+    // }
+
+    //@ts-ignore
       dispatch(keyChangeActions.createKeyChange({
         title: newData.title,
         value: newData.change,

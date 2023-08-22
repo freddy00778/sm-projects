@@ -40,24 +40,10 @@ const MultiSelectDropdown: React.FC<DropdownProps> = ({
         setSelectedOptions(defaultOptions || []);
     }, [defaultOptions]);
 
-    // useEffect(() => {
-    //     setSelectedOptions(defaultOptions || []);
-    // }, []);
-
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
     }
-
-    // const handleOptionToggle = (option: Option) => {
-    //     const isOptionSelected = selectedOptions.some(selected => selected.value === option.value);
-    //
-    //     if (isOptionSelected) {
-    //         setSelectedOptions(prevOptions => prevOptions.filter(selected => selected.value !== option.value));
-    //     } else {
-    //         setSelectedOptions(prevOptions => [...prevOptions, option]);
-    //     }
-    // }
 
     const handleOptionToggle = (option: Option) => {
         let updatedOptions: Option[];

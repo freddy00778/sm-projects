@@ -6,8 +6,10 @@ interface Stakeholder {
 }
 
 interface StakeholderState {
+    departments: any
     stakeholder: Stakeholder | null;
     stakeholders: Stakeholder[] | null;
+    affectedStakeholders: any;
     isLoading: boolean;
     error: any;
 }
@@ -16,14 +18,20 @@ const stakeholderName = 'stakeholders';
 const baseUrl = import.meta.env.VITE_API_ENDPOINT;
 
 const initialState: StakeholderState = {
+    departments: null,
     stakeholder: null,
     stakeholders: null,
+    affectedStakeholders: null,
     isLoading: false,
     error: null
 };
 
 const getStakeholders = createAsyncThunk(`${stakeholderName}/getStakeholders`, async () => {
     return await fetchWrapper.get(`${baseUrl}/api/v1/stakeholders`);
+});
+
+const getAffectedStakeholders = createAsyncThunk(`${stakeholderName}/getAffectedStakeholders`, async ({key_change_id}) => {
+    return await fetchWrapper.get(`${baseUrl}/api/v1/affected-stakeholders?id=${key_change_id}`);
 });
 
 const getStakeholdersByKeyChangeId = createAsyncThunk(`${stakeholderName}/getStakeholdersByKeyChangeId`, async ({ id }: { id: string }) => {
@@ -35,9 +43,16 @@ const getStakeholderById = createAsyncThunk(`${stakeholderName}/getStakeholderBy
 });
 
 
-
 const createStakeholder = createAsyncThunk(`${stakeholderName}/createStakeholder`, async (stakeholder: Stakeholder) => {
     return await fetchWrapper.post(`${baseUrl}/api/v1/stakeholders`, stakeholder);
+});
+
+const addDepartments = createAsyncThunk(`${stakeholderName}/addDepartments`, async (stakeholder: Stakeholder) => {
+    return await fetchWrapper.post(`${baseUrl}/api/v1/stakeholders/change-drivers/department`, stakeholder);
+});
+
+const addAffectedStakeholder = createAsyncThunk(`${stakeholderName}/addAffectedStakeholder`, async (stakeholder: Stakeholder) => {
+    return await fetchWrapper.post(`${baseUrl}/api/v1/stakeholders/affected/data`, stakeholder);
 });
 
 const deleteStakeholder = createAsyncThunk(`${stakeholderName}/deleteStakeholder`, async ({ id }: { id: string }) => {
@@ -71,6 +86,22 @@ const stakeholderSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(getStakeholders.rejected, (state, action) => {
+                state.error = action.payload;
+                state.isLoading = false
+            })
+
+
+            .addCase(getAffectedStakeholders.fulfilled, (state, action) => {
+                state.affectedStakeholders = action.payload;
+                state.error = null;
+                state.isLoading = false
+            })
+            .addCase(getAffectedStakeholders.pending, (state, action) => {
+                state.affectedStakeholders = action.payload;
+                state.error = null;
+                state.isLoading = true
+            })
+            .addCase(getAffectedStakeholders.rejected, (state, action) => {
                 state.error = action.payload;
                 state.isLoading = false
             })
@@ -127,6 +158,43 @@ const stakeholderSlice = createSlice({
                 state.isLoading = false
             })
 
+
+            .addCase(addAffectedStakeholder.fulfilled, (state, action) => {
+                // const stakeholder = action.payload
+                // state.stakeholder = stakeholder
+                state.error = null
+                state.isLoading = false
+            })
+
+            .addCase(addAffectedStakeholder.pending, (state, action) => {
+                // state.stakeholder = action.payload;
+                state.error = null;
+                state.isLoading = true
+            })
+
+            .addCase(addAffectedStakeholder.rejected, (state, action) => {
+                state.error = action.payload
+                state.isLoading = false
+            })
+
+            .addCase(addDepartments.fulfilled, (state, action) => {
+                const stakeholder = action.payload
+                state.departments = stakeholder
+                state.error = null
+                state.isLoading = false
+            })
+
+            .addCase(addDepartments.pending, (state, action) => {
+                state.departments = action.payload;
+                state.error = null;
+                state.isLoading = true
+            })
+
+            .addCase(addDepartments.rejected, (state, action) => {
+                state.error = action.payload
+                state.isLoading = false
+            })
+
             .addCase(deleteStakeholder.fulfilled, (state, action) => {
                 state.stakeholder = action.payload;
                 state.error = null
@@ -162,9 +230,12 @@ const stakeholderSlice = createSlice({
 export const { clearStakeholders } = stakeholderSlice.actions;
 export const stakeholderActions = {
     getStakeholders,
+    getAffectedStakeholders,
     getStakeholderById,
     getStakeholdersByKeyChangeId,
     createStakeholder,
+    addDepartments,
+    addAffectedStakeholder,
     deleteStakeholder,
     updateStakeholder,
 };

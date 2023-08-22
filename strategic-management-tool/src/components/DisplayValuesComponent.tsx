@@ -11,7 +11,7 @@ const DisplayValuesComponent: React.FC<DisplayValuesProps> = ({
   handleDeleteValue,
 }) => {
   return (
-    <div className="flex flex-col w-full h-24 overflow-y-auto max-h-48 scrollbar-thin scrollbar-thumb-zinc-200">
+    <div className="flex flex-col w-full h-36 overflow-y-auto max-h-48 scrollbar-thin scrollbar-thumb-zinc-200">
       {displayValues?.map((value, index) => (
         <div
           key={index}
