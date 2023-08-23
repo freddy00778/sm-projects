@@ -51,6 +51,10 @@ const addDepartments = createAsyncThunk(`${stakeholderName}/addDepartments`, asy
     return await fetchWrapper.post(`${baseUrl}/api/v1/stakeholders/change-drivers/department`, stakeholder);
 });
 
+const addAffectedStakeholderDepartments = createAsyncThunk(`${stakeholderName}/addAffectedStakeholderDepartments`, async (stakeholder: Stakeholder) => {
+    return await fetchWrapper.post(`${baseUrl}/api/v1/stakeholders/affected/departments`, stakeholder);
+});
+
 const addAffectedStakeholder = createAsyncThunk(`${stakeholderName}/addAffectedStakeholder`, async (stakeholder: Stakeholder) => {
     return await fetchWrapper.post(`${baseUrl}/api/v1/stakeholders/affected/data`, stakeholder);
 });
@@ -165,17 +169,16 @@ const stakeholderSlice = createSlice({
                 state.error = null
                 state.isLoading = false
             })
-
             .addCase(addAffectedStakeholder.pending, (state, action) => {
                 // state.stakeholder = action.payload;
                 state.error = null;
                 state.isLoading = true
             })
-
             .addCase(addAffectedStakeholder.rejected, (state, action) => {
                 state.error = action.payload
                 state.isLoading = false
             })
+
 
             .addCase(addDepartments.fulfilled, (state, action) => {
                 const stakeholder = action.payload
@@ -183,14 +186,28 @@ const stakeholderSlice = createSlice({
                 state.error = null
                 state.isLoading = false
             })
-
             .addCase(addDepartments.pending, (state, action) => {
                 state.departments = action.payload;
                 state.error = null;
                 state.isLoading = true
             })
-
             .addCase(addDepartments.rejected, (state, action) => {
+                state.error = action.payload
+                state.isLoading = false
+            })
+
+            .addCase(addAffectedStakeholderDepartments.fulfilled, (state, action) => {
+                // const stakeholder = action.payload
+                // state.departments = stakeholder
+                state.error = null
+                state.isLoading = false
+            })
+            .addCase(addAffectedStakeholderDepartments.pending, (state, action) => {
+                // state.departments = action.payload;
+                state.error = null;
+                state.isLoading = true
+            })
+            .addCase(addAffectedStakeholderDepartments.rejected, (state, action) => {
                 state.error = action.payload
                 state.isLoading = false
             })
@@ -236,6 +253,7 @@ export const stakeholderActions = {
     createStakeholder,
     addDepartments,
     addAffectedStakeholder,
+    addAffectedStakeholderDepartments,
     deleteStakeholder,
     updateStakeholder,
 };

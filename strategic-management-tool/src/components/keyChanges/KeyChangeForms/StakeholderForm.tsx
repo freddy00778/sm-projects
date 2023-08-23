@@ -48,9 +48,10 @@ const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
   const [departmentOptions, setDepartmentOptions] = useState([])
   const [defaultDepartmentOptions, setDefaultDepartmentOptions] = useState([])
   const {departments} = useSelector(state => state.department)
+  const [selectedDepartments, setSelectedDepartments] = useState([])
+
 
   const dispatch = useDispatch()
-
 
   useEffect(() => {
     dispatch(stakeholderActions.getStakeholdersByKeyChangeId({id: keyChangeId}));
@@ -82,7 +83,6 @@ const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
   };
 
 
-
   const handleKeyPress = (value: string) => {
     setDisplayValues([...displayValues, value]);
     dispatch(stakeholderActions.addAffectedStakeholder({
@@ -104,13 +104,13 @@ const StakeholderForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
   };
 
   const handleSelectedOptions = (options) => {
-    // setSelectedDepartments(options);
-    // console.log("Options", options)
-    // dispatch(stakeholderActions.addDepartments({
-    //   departmentIds: options,
-    //   key_change_id: keyChangeId,
-    //   project_id: user?.project_id
-    // }))
+    setSelectedDepartments(options);
+    console.log("Options", options)
+    dispatch(stakeholderActions.addAffectedStakeholderDepartments({
+      departmentIds: options,
+      key_change_id: keyChangeId,
+      project_id: user?.project_id
+    }))
   };
 
   return (
