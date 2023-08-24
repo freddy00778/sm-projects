@@ -45,6 +45,7 @@ const Assets = () => {
         })
         setDepartmentOptions(departmentOptions)
     },[])
+
     return (
         <form className="flex flex-col w-full px-10 py-10  space-y-10">
             <div className="w-full flex items-center border-b border-b-border py-2">

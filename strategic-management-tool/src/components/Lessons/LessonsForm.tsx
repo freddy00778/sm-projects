@@ -10,6 +10,7 @@ import {categoryActions} from "../../_store/category.slice";
 import {useDispatch, useSelector} from "react-redux";
 import {lessonActions} from "../../_store/lessons.slice";
 import {ToastContainer} from "react-toastify";
+import TableComponent from "../TableComponent";
 
 const LessonsForm = () => {
   const dispatch = useDispatch()
@@ -62,32 +63,16 @@ const LessonsForm = () => {
   const handleOptionSelected = (option: any) => {
     setOption(option)
   }
-  // const handleSuccessToast = () => {
-  //   toast.success("Successfully added a lesson!", {
-  //     position: toast.POSITION.TOP_RIGHT,
-  //     autoClose: 3000, // Auto-close the toast after 3 seconds
-  //   });
-  // };
-  //
-  // const addLesson = () => {
-  //   dispatch(lessonActions.createLesson({
-  //     type: option.value,
-  //     date_logged: dateLogged,
-  //     description: description,
-  //     logged_by: loggedBy,
-  //     project_id: user?.project_id
-  //   })).then(() => {
-  //     setSubmitted(true)
-  //
-  //     handleSuccessToast()
-  //
-  //   })
-  // }
 
   const saveForm = () => {
     // addLesson()
     setSecondModalOpen(false)
   }
+
+  const sampleData = [
+    { name: 'John', age: 28 },
+    { name: 'Jane', age: 24 }
+  ];
 
   return (
     <div className="flex flex-col w-full h-screen relative ">
@@ -105,17 +90,19 @@ const LessonsForm = () => {
           </Button>
         </div>
         <div className="flex flex-col w-full px-10 h-[80%]">
-          <Table
+          <TableComponent
             headings={[{alias: "No", name:"No"}, {alias: "Type", name: "type_name"}, {alias:"Description", name:"description"}, {alias: "Date Logged", name:"date_logged"}, {alias:"Logged By", name:"logged_by"}]}
             data={lessons?.data}
             //addData={addData}
             children={
               <div className=" space-y-2">
-                <img src={lesson} alt="lessons" width={200} />
-                <h1 className="text-[18px]">No Lessons Log</h1>
+                {/*<img src={lesson} alt="lessons" width={200} />*/}
+                {/*<h1 className="text-[18px]">No Lessons Log</h1>*/}
               </div>
             }
           />
+
+          {/*<TableComponent data={sampleData} itemsPerPage={10} />*/}
         </div>
       </div>
 

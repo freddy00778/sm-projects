@@ -99,6 +99,18 @@ const KeyImpactForm: React.FC<KeyImpactFormProps> = () => {
     }))
   }
 
+  if (!keyChangeId) {
+    return (
+        <div className="flex items-center justify-center h-80">
+          <div className="p-8 border border-gray-300 shadow-lg rounded-lg bg-white max-w-md">
+            <p className="text-center text-xl text-gray-700 font-semibold mb-4">Oops!</p>
+            <p className="text-center text-gray-600">
+              Please select a key change.
+            </p>
+          </div>
+        </div>
+    );
+  }
   return (
       <form
           className="flex flex-col w-full h-full py-10 overflow-y-auto max-h-[400px] scrollbar-thin scrollbar-thumb-zinc-200"

@@ -8,6 +8,7 @@ import {DataType} from "../../../types";
 import {useDispatch, useSelector} from "react-redux";
 import {decisionActions} from "../../_store/decisons.slice";
 import {userActions} from "../../_store/users.slice";
+import TableComponent from "../TableComponent";
 
 const DecisionForm = () => {
     const { user } = useSelector(state => state.auth)
@@ -100,7 +101,7 @@ const DecisionForm = () => {
                     </Button>
                 </div>
                 <div className="flex flex-col w-full px-10 h-[80%]">
-                    <Table
+                    <TableComponent
                         headings={[
                             {name: "No", alias: "No"},
                             {name: "date1", alias: "Date1"},
@@ -119,8 +120,8 @@ const DecisionForm = () => {
                         //addData={addData}
                         children={
                             <div className=" space-y-2">
-                                <img src={lesson} alt="lessons" width={200} />
-                                <h1 className="text-[18px]">No Decision Made</h1>
+                                {/*<img src={lesson} alt="lessons" width={200} />*/}
+                                {/*<h1 className="text-[18px]">No Decision Made</h1>*/}
                             </div>
                         }
                     />

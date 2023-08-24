@@ -117,6 +117,7 @@ const ObjectiveForm: React.FC<ObjectiveFormProps> = ({ onChange }) => {
   const addBenefit = () => {
     setBenefits((prevBenefits) => [...prevBenefits, { ...defaultBenefit }]);
   };
+
   return (
       <>
         {isLoading &&   <Loader/>}

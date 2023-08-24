@@ -69,6 +69,8 @@ const RiskPage: React.FC<RiskPageProps> = ({ onChange }) => {
 
   const handleKeyPress1 = (value: string) => {
     if (!value || value == "") return
+
+    //@ts-ignore
     dispatch(riskObstacleActions.createRiskObstacle({
       key_change_id: keyChangeId,
       obstacle_description: value,
@@ -97,6 +99,7 @@ const RiskPage: React.FC<RiskPageProps> = ({ onChange }) => {
 
   const handleKeyPress2 = (value: string) => {
     if (!value) return
+    //@ts-ignore
     dispatch(riskLeverActions.createRiskLever({
       key_change_id: keyChangeId,
       lever_description: value
@@ -115,7 +118,7 @@ const RiskPage: React.FC<RiskPageProps> = ({ onChange }) => {
   }
 
   useEffect(() => {
-    dispatch(keyChangeActions.getKeyChanges()).then((kc) => {
+    dispatch(keyChangeActions.getKeyChangesByProjectId({id: user?.project_id})).then((kc) => {
       const keyChanges = kc?.payload?.data?.map((kcg,index)=> {
         const page = `/project/dashboard/keychange/risks/${kcg?.id}`
         return   {
@@ -130,6 +133,18 @@ const RiskPage: React.FC<RiskPageProps> = ({ onChange }) => {
 
   }, [])
 
+  // if (!keyChangeId) {
+  //   return (
+  //       <div className="flex items-center justify-center h-80">
+  //         <div className="p-8 border border-gray-300 shadow-lg rounded-lg bg-white max-w-md">
+  //           <p className="text-center text-xl text-gray-700 font-semibold mb-4">Oops!</p>
+  //           <p className="text-center text-gray-600">
+  //             Please select a key change.
+  //           </p>
+  //         </div>
+  //       </div>
+  //   );
+  // }
   return (
     <div className="w-full h-full flex flex-col ">
       {(isLoading  || riskLever.isLoading) && <Loader/> }
@@ -183,84 +198,132 @@ const RiskPage: React.FC<RiskPageProps> = ({ onChange }) => {
               </Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="tab1">
+              {!keyChangeId &&
+
+                  <div className="flex items-center justify-center h-80">
+                    <div className="p-8 border border-gray-300 shadow-lg rounded-lg bg-white max-w-md">
+                      <p className="text-center text-xl text-gray-700 font-semibold mb-4">Oops!</p>
+                      <p className="text-center text-gray-600">
+                        Please select a key change.
+                      </p>
+                    </div>
+                  </div>
+              }
+              {keyChangeId &&
               <div className="flex flex-col w-full px-10 py-10  space-y-6  overflow-y-auto max-h-[300px] scrollbar-thin scrollbar-thumb-zinc-200">
                 <div className="w-full flex items-center border-b border-b-border py-0">
                   <h1 className="text-[20px]">Barriers /Obstacles</h1>
                 </div>
                 <div className="flex flex-col w-full">
                   <InputField
-                    id="obstacle"
-                    label=""
-                    value={inputValue1}
-                    onChange={handleInputChange1}
-                    onEnterPress={handleKeyPress1}
-                    type="textarea"
-                    placeholder="What barriers or obstacles do you foresee?"
-                    required
-                    className="w-full  "
-                    characterLimit={240}
+                      id="obstacle"
+                      label=""
+                      value={inputValue1}
+                      onChange={handleInputChange1}
+                      onEnterPress={handleKeyPress1}
+                      type="textarea"
+                      placeholder="What barriers or obstacles do you foresee?"
+                      required
+                      className="w-full  "
+                      characterLimit={240}
                   />
                   <div className="mt-4">
                     <DisplayValuesComponent
-                      displayValues={riskObstacleList}
-                      handleDeleteValue={handleDeleteValue1}
+                        displayValues={riskObstacleList}
+                        handleDeleteValue={handleDeleteValue1}
                     />
                   </div>
                 </div>
                 <div className="flex w-full h-full space-x-20   items-end justify-end">
                   <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={() => alert("Objective Saved")}
-                    className="rounded-lg w-[40%] bg-primary-500"
-                    type="button"
+                      variant="primary"
+                      size="lg"
+                      onClick={() => alert("Objective Saved")}
+                      className="rounded-lg w-[40%] bg-primary-500"
+                      type="button"
                   >
                     Save
                   </Button>
                 </div>
               </div>
+
+              }
             </Tabs.Content>
             <Tabs.Content value="tab2">
               <div className="flex flex-col w-full px-10 py-10  space-y-16 overflow-y-auto max-h-[300px] scrollbar-thin scrollbar-thumb-zinc-200 ">
                 <div className="w-full flex items-center border-b border-b-border py-0">
                   <h1 className="text-[20px]">Levers</h1>
                 </div>
-                <div className="flex flex-col w-full  ">
-                  <InputField
-                    id="email"
-                    label="(How does it contribute to i.e the strategy, improved financial performance, compliance,
-sustainability, effectiveness, efficiency, culture, values?)"
-                    value={inputValue2}
-                    onChange={handleInputChange2}
-                    onEnterPress={handleKeyPress2}
-                    type="textarea"
-                    placeholder="Provide the necessary information"
-                    required
-                    className="w-full"
-                    characterLimit={120}
-                  />
-                  <div className="mt-6">
-                    <DisplayValuesComponent
-                      displayValues={riskLeverList}
-                      handleDeleteValue={handleDeleteValue2}
-                    />
+
+                {!keyChangeId &&
+
+                <div className="flex items-center justify-center h-80">
+                  <div className="p-8 border border-gray-300 shadow-lg rounded-lg bg-white max-w-md">
+                    <p className="text-center text-xl text-gray-700 font-semibold mb-4">Oops!</p>
+                    <p className="text-center text-gray-600">
+                      Please select a key change.
+                    </p>
                   </div>
                 </div>
-                <div className="flex w-full h-full space-x-20  items-end justify-end">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={() => alert("Objective Saved")}
-                    className="rounded-lg w-[40%] bg-primary-500"
-                    type="button"
-                  >
-                    Save
-                  </Button>
-                </div>
+                }
+
+                {
+                  keyChangeId &&
+                      <>
+                        <div className="flex flex-col w-full  ">
+                          <InputField
+                              id="email"
+                              label="(How does it contribute to i.e the strategy, improved financial performance, compliance,
+sustainability, effectiveness, efficiency, culture, values?)"
+                              value={inputValue2}
+                              onChange={handleInputChange2}
+                              onEnterPress={handleKeyPress2}
+                              type="textarea"
+                              placeholder="Provide the necessary information"
+                              required
+                              className="w-full"
+                              characterLimit={120}
+                          />
+                          <div className="mt-6">
+                            <DisplayValuesComponent
+                                displayValues={riskLeverList}
+                                handleDeleteValue={handleDeleteValue2}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex w-full h-full space-x-20  items-end justify-end">
+                          <Button
+                              variant="primary"
+                              size="lg"
+                              onClick={() => alert("Objective Saved")}
+                              className="rounded-lg w-[40%] bg-primary-500"
+                              type="button"
+                          >
+                            Save
+                          </Button>
+                        </div>
+                      </>
+                }
+
               </div>
             </Tabs.Content>
             <Tabs.Content value="tab3">
-              <RiskImpactForm />
+
+              {!keyChangeId &&
+
+              <div className="flex items-center justify-center h-80">
+                <div className="p-8 border border-gray-300 shadow-lg rounded-lg bg-white max-w-md">
+                  <p className="text-center text-xl text-gray-700 font-semibold mb-4">Oops!</p>
+                  <p className="text-center text-gray-600">
+                    Please select a key change.
+                  </p>
+                </div>
+              </div>
+              }
+              {keyChangeId &&
+                <RiskImpactForm />
+              }
             </Tabs.Content>
           </Tabs.Root>
         </div>

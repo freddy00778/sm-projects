@@ -13,6 +13,7 @@ import Loader from "../../Loader";
 
 const KeyChangesPage = () => {
   const {user} = useSelector( state => state.auth)
+  console.log("User from KeyChanges", user)
   const {keyChanges, isLoading} = useSelector( state => state.keychanges)
   const changes = useSelector( state => state.keychanges)
   const [secondModalOpen, setSecondModalOpen] = useState(false);

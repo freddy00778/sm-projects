@@ -10,6 +10,7 @@ import Loader from "../Loader";
 import {departmentActions} from "../../_store/department.slice";
 
 const StakeholdersPage: React.FC = () => {
+    const {user} = useSelector(state => state.auth)
     const [activeTab, setActiveTab] = useState<string>("tab1");
     const dispatch = useDispatch()
     const [stakeholderKeychanges,setStakeholderKeychanges ] = useState([])
@@ -20,7 +21,7 @@ const StakeholdersPage: React.FC = () => {
 
     useEffect(() => {
         //@ts-ignore
-        dispatch(keyChangeActions.getKeyChanges()).then((kc) => {
+        dispatch(keyChangeActions.getKeyChangesByProjectId({id: user?.project_id})).then((kc) => {
             const keyChanges = kc?.payload?.data?.map((kcg)=> {
                 const page = `/project/dashboard/keychange/stakeholders/${kcg?.id}`
                 return   {

@@ -158,6 +158,7 @@ export const attachPublicRoutes = (app: express.Application): void => {
   app.post('/api/v1/stakeholders',    Auth.authorize(), stakeholders.insertSingleStakeholder)
   app.post('/api/v1/stakeholders/change-drivers/department',    Auth.authorize(), stakeholders.addChangeDriverDepartments)
   app.post('/api/v1/stakeholders/affected/data',    Auth.authorize(), stakeholders.addAffectedStakeholder)
+  app.post('/api/v1/stakeholders/affected/departments',    Auth.authorize(), stakeholders.addAffectedStakeholderDepartments)
   app.get('/api/v1/affected-stakeholders',    Auth.authorize(), stakeholders.getAffectedStakeholders)
   app.patch('/api/v1/stakeholders',   Auth.authorize(), stakeholders.updateStakeholder)
   app.delete('/api/v1/stakeholders/', Auth.authorize(), stakeholders.deleteStakeholder)

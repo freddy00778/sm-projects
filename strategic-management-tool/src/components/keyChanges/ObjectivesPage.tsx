@@ -1,5 +1,5 @@
 import KeyChangeList from "./KeyChangeList";
-import { Outlet } from "react-router-dom";
+import {Outlet, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {keyChangeActions} from "../../_store/keychanges.slice";
@@ -7,6 +7,9 @@ import keyChange from "../../assets/images/key-change.svg";
 import React from "react";
 import Loader from "../Loader";
 const ObjectivesPage = () => {
+    const params = useParams()
+    const keyChangeId = params["*"]
+    const {user} = useSelector(state => state.auth)
     //@ts-ignore
     const {isLoading} = useSelector( state => state.objectives)
     //@ts-ignore
@@ -16,7 +19,7 @@ const ObjectivesPage = () => {
 
     useEffect(() => {
         //@ts-ignore
-        dispatch(keyChangeActions.getKeyChanges()).then((kc) => {
+        dispatch(keyChangeActions.getKeyChangesByProjectId({id: user?.project_id})).then((kc) => {
             const objectiveKeyChanges = kc?.payload?.data?.map((kcg)=> {
                 const page = `/project/dashboard/keychange/objectives/${kcg?.id}`
                 return   {
@@ -30,7 +33,9 @@ const ObjectivesPage = () => {
         })
 
     }, [])
+
   return (
+
     <div className="w-full h-full flex flex-col ">
         {
             isLoading || keyChanges.isLoading && <Loader />
@@ -46,6 +51,19 @@ const ObjectivesPage = () => {
           <KeyChangeList data={objectiveKeyChanges} />
         </div>
         <div className="w-3/4">
+
+            {!keyChangeId &&
+
+            <div className="flex items-center justify-center h-80">
+                <div className="p-8 border border-gray-300 shadow-lg rounded-lg bg-white max-w-md">
+                    <p className="text-center text-xl text-gray-700 font-semibold mb-4">Oops!</p>
+                    <p className="text-center text-gray-600">
+                        Please select a key change.
+                    </p>
+                </div>
+            </div>
+            }
+
           <Outlet />
         </div>
       </div>

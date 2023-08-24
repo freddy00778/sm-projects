@@ -1,19 +1,22 @@
-import { Outlet } from "react-router-dom";
+import {Outlet, useParams} from "react-router-dom";
 import KeyChangeList from "../keyChanges/KeyChangeList";
 import { IssueKeyChangeListData } from "../../data/IssueKeyChangeListData";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {budgetItemActions} from "../../_store/budgetItems.slice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import keyChange from "../../assets/images/key-change.svg";
 import {keyChangeActions} from "../../_store/keychanges.slice";
 
 const IssueRegisterLayout = () => {
 
-  const dispatch = useDispatch()
-  const [keyChangeItems, setKeyChangeItems] = useState([])
+      const params = useParams()
+      const keyChangeId = params["*"]
+      const {user} = useSelector(state => state.auth)
+      const dispatch = useDispatch()
+      const [keyChangeItems, setKeyChangeItems] = useState([])
 
   useEffect(() => {
-    dispatch(keyChangeActions.getKeyChanges()).then((res) => {
+    dispatch(keyChangeActions.getKeyChangesByProjectId({id: user?.project_id})).then((res) => {
       const mappedKeyChanges = res?.payload?.data?.map((keyChangeItem) => {
         return    {
              id: keyChangeItem?.id,
@@ -25,6 +28,8 @@ const IssueRegisterLayout = () => {
       setKeyChangeItems(mappedKeyChanges)
     })
   },[])
+
+
 
   return (
     <div className=" w-full h-full space-y-6">
@@ -43,6 +48,16 @@ const IssueRegisterLayout = () => {
             <KeyChangeList data={keyChangeItems} text="Key" />
           </div>
           <div className="w-3/4">
+              {!keyChangeId &&
+              <div className="flex items-center justify-center h-80">
+                  <div className="p-8 border border-gray-300 shadow-lg rounded-lg bg-white max-w-md">
+                      <p className="text-center text-xl text-gray-700 font-semibold mb-4">Oops!</p>
+                      <p className="text-center text-gray-600">
+                          Please select a key change.
+                      </p>
+                  </div>
+              </div>
+              }
             <Outlet />
           </div>
         </div>

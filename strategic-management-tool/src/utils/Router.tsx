@@ -186,38 +186,6 @@ export const router = createBrowserRouter([
                 path: "/project/dashboard/keychange/stakeholders/*",
                 element: <StakeholderForm />,
               },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/2",
-              //   element: <StakeholderForm />,
-              // },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/3",
-              //   element: <StakeholderForm />,
-              // },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/4",
-              //   element: <StakeholderForm />,
-              // },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/5",
-              //   element: <StakeholderForm />,
-              // },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/6",
-              //   element: <StakeholderForm />,
-              // },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/7",
-              //   element: <StakeholderForm />,
-              // },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/8",
-              //   element: <StakeholderForm />,
-              // },
-              // {
-              //   path: "/project/dashboard/keychange/stakeholders/9",
-              //   element: <StakeholderForm />,
-              // },
             ],
           },
           {
