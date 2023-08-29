@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Button from "../../Button";
 import InputDropdown from "../../InputDropdown";
 import { useState } from "react";

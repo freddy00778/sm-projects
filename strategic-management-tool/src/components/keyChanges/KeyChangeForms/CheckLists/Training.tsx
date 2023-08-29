@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, {ChangeEvent, FC, useEffect, useState} from "react";
 import { CustomCheckbox } from "../../../CustomCheckBox";
 import DynamicFieldSet from "../../../DynamicFieldSet";

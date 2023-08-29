@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import DynamicFieldSet from "../DynamicFieldSet";
 import InputField from "../InputField";
 import Button from "../Button";

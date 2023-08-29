@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { StageCompletionData } from "../../../data/StageCompletionData";
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 

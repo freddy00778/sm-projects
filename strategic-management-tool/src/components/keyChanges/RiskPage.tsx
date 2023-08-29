@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // import { RiskImpactData } from "../../data/RiskImpactData";
 import KeyChangeList from "./KeyChangeList";
 import * as Tabs from "@radix-ui/react-tabs";

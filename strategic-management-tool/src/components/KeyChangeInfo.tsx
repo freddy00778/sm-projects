@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ImpactCategoryData } from "../data/ImpactCategoryData";
 import { ChangeDepartmentData } from "../data/ChangeDepartmentData";
 

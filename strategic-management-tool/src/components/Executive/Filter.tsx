@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 const Filter = () => {
   return (
     <div className="flex px-6 py-3 border cursor-pointer border-border border-opacity-40 rounded-lg items-center justify-center text-sm">

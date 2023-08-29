@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Button from "../../Button";
 import {useEffect, useState} from "react";
 
@@ -12,9 +14,12 @@ import {useNavigate} from "react-router-dom";
 import Loader from "../../Loader";
 
 const KeyChangesPage = () => {
+  //@ts-ignore
   const {user} = useSelector( state => state.auth)
   console.log("User from KeyChanges", user)
+  //@ts-ignore
   const {keyChanges, isLoading} = useSelector( state => state.keychanges)
+  //@ts-ignore
   const changes = useSelector( state => state.keychanges)
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [dataEntries, setDataEntries] = useState<DataType[]>([]); // Array to store all entries

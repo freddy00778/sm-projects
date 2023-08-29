@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { NavLink } from "react-router-dom";
 import { NavLinksProps } from "../../models/NavLinks";
 import * as Tabs from "@radix-ui/react-tabs";

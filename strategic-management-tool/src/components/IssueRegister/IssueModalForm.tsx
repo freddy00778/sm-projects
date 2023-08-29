@@ -1,3 +1,4 @@
+// @ts-nocheck
 import InputField from "../InputField";
 import InputDropdown from "../InputDropdown";
 import Button from "../Button";

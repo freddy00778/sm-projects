@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {Outlet, useParams} from "react-router-dom";
 import KeyChangeList from "../keyChanges/KeyChangeList";
 import { IssueKeyChangeListData } from "../../data/IssueKeyChangeListData";

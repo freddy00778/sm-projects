@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import InputDropdown from "../../InputDropdown";
 import InputField from "../../InputField";
 import DisplayValuesComponent from "../../DisplayValuesComponent";

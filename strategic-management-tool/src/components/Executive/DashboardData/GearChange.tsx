@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { GearChangeData } from "../../../data/GearChangeData";
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 

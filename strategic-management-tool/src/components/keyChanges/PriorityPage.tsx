@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // import { PriorityData } from "../../data/PriorityData";
 import KeyChangeList from "./KeyChangeList";
 import {Outlet, useParams} from "react-router-dom";

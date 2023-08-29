@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { VictoryPie, VictoryLegend } from "victory";
 import { ChangeActivityData } from "../../data/ChangeActivityData";
 import StageOfCompletion from "./DashboardData/StageOfCompletion";

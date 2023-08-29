@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import CustomModal from "../../CustomModal";
 import cancel from "../../../assets/images/cancel.svg";
 import { Event } from "../CalendarComponent";

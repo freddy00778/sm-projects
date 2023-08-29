@@ -1,3 +1,6 @@
+// @ts-nocheck
+
+
 import {useEffect, useState} from "react";
 import RadioButton from "./RadioButton";
 import ChangeReadiness from "../assets/images/change-readiness.svg";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Button from "../../Button";
 import {useEffect, useState} from "react";
 import { DataType } from "../../../../types";

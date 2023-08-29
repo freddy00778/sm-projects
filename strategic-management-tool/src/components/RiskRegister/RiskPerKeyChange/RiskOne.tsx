@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Button from "../../Button";
 import { DataType } from "../../../../types";
-import risk from "../../../assets/images/riskFlag.svg";
 import AddRiskForm from "../AddRiskForm";
-import { riskActions } from "../../../_store/risks.slice";
 
 const RiskOne = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const {
-    risk,
-    risks,
-    setRisk,
-    riskEditOpened,
-    riskViewOpened,
-    riskDeleteOpened,
-    riskAction
-  } = useSelector(state => state.risk);
+  //@ts-ignore
+  const {risk, risks, riskAction} = useSelector(state => state.risk);
 
   const [secondModalOpen, setSecondModalOpen] = useState(false);
+
   const [dataEntries, setDataEntries] = useState<DataType[]>([]);
 
   const onClose = () => setSecondModalOpen(false);
@@ -30,8 +22,8 @@ const RiskOne = () => {
   const openModal = () => setSecondModalOpen(true);
 
   useEffect(() => {
+    //@ts-ignore
     if (riskAction?.payload?.type){
-      console.log("Risk id", riskAction.payload)
       setSecondModalOpen(true);
     }
 

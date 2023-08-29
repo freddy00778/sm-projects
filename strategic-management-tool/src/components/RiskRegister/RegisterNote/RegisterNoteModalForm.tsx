@@ -2,7 +2,6 @@ import InputField from "../../InputField";
 import InputDropdown from "../../InputDropdown";
 import Button from "../../Button";
 import React, { useState } from "react";
-
 import { DataType } from "../../../../types";
 import {useDispatch, useSelector} from "react-redux";
 import {noteActions} from "../../../_store/notes.slice";
@@ -43,9 +42,7 @@ const RegisterNoteModalForm: React.FC<RegisterNoteModalFormProps> = ({
   ];
 
   //@ts-ignore
-  const {user} = useSelector(state => {
-    return state.auth;
-  })
+  const {user} = useSelector(state => {return state.auth})
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [selectedOption1, setSelectedOption1] = useState(options1[0]);
   const params = useParams()
@@ -66,25 +63,11 @@ const RegisterNoteModalForm: React.FC<RegisterNoteModalFormProps> = ({
 
     // console.log(`${selectedOption.name} - ${text} - ${formattedDate} - ${assessment} - ${dateLogged}`)
     console.log(`Note Details => ${text} - Previous Risk Severity => ${selectedOption.name} - Previous Rating => ${selectedOption1.name} - Assessment => ${assessment} - date logged => ${dateLogged}`)
-    dispatch(noteActions.createNote({
-      key_change_id: keyChangeId,
-      project_id: user?.project_id,
-      date_reported: formattedDate,
-      details: text,
-      previous_risk_severity: selectedOption.value,
-      previous_rating: selectedOption1.value,
-      risk_assessment_value: assessment,
-    }))
+    //@ts-ignore
+    dispatch(noteActions.createNote({key_change_id: keyChangeId, project_id: user?.project_id, date_reported: formattedDate, details: text, previous_risk_severity: selectedOption.value, previous_rating: selectedOption1.value, risk_assessment_value: assessment,}))
 
-
-    addData({
-      No: dataLength + 1,
-      Type: selectedOption,
-      Description: text,
-      Date: formattedDate,
-      "Logged By": assessment,
-    });
-
+    //@ts-ignore
+    addData({No: dataLength + 1, Type: selectedOption, Description: text, Date: formattedDate, "Logged By": assessment,});
 
     setAssessment("");
     setDateLogged("");

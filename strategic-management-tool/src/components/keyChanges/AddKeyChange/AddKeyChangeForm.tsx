@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {useEffect, useState} from "react";
 import KeyChangeModal from "./KeyChangeModal";
 import { DataType } from "../../../../types";

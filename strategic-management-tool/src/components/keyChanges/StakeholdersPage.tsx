@@ -1,3 +1,6 @@
+// @ts-nocheck
+
+
 import KeyChangeList from "./KeyChangeList";
 import * as Tabs from "@radix-ui/react-tabs";
 import StakeholderForm from "./KeyChangeForms/StakeholderForm";

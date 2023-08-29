@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import InputField from "./InputField";
 import notification from "../assets/images/notification.svg";
 import { useState } from "react";

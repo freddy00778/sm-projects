@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import logo from "../../assets/images/changeverve.svg";
 import { ExecutiveNavLinksData } from "../../data/ExecutiveNavLinksData";
 import { NavLink, useLocation, Link } from "react-router-dom";

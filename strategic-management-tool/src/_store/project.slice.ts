@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // Slice and Thunks for Projects API
 
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";

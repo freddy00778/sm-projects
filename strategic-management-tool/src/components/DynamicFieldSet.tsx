@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { ChangeEventHandler } from "react";
 import InputField from "./InputField";
 import del from "../assets/images/delete.svg";

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {Outlet, useNavigate, useLocation, useParams} from "react-router-dom";
 import BudgetListGenerator from "./BudgetListGenerator";
 import NoBudget from "./NoBudget";

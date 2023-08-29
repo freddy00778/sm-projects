@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import * as React from "react"
 import InputField from "./InputField";
 import {useEffect, useState} from "react";

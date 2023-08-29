@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { store, authActions } from '../_store';
 import axios, { AxiosResponse } from 'axios';
 

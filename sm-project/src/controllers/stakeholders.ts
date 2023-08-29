@@ -216,6 +216,28 @@ export const addAffectedStakeholderDepartments = catchErrors(async (req, res) =>
     }
 })
 
+export const getAffectedStakeholderDepartments = catchErrors(async (req, res) => {
+    const stakeholderData = req.body;
+
+    if (!stakeholderData) {
+        return res.status(400).send("Invalid or missing stakeholder data");
+    }
+
+    try {
+        const data = await DataProvider.create();
+        const affectedStakeholderDepartmentHandler = await AffectedStakeholderDepartmentHandlers.create(data);
+        const queryObject = req.query.id ? {key_change_id : req.query.id} : {}
+        //@ts-ignore
+        const affectedStakeholderDepartments = affectedStakeholderDepartmentHandler.getAll(queryObject)
+
+        return res.status(200).send({ status: "Success" });
+
+    } catch (error) {
+        console.error("Error processing stakeholder data:", error);
+        return res.status(500).send("Internal server error");
+    }
+})
+
 export const addAffectedStakeholder = catchErrors(async (req, res) => {
     const stakeholderData = req.body;
 

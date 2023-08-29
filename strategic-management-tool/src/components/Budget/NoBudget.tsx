@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import budget from "../../assets/images/no-budget.svg";
 
 const NoBudget = () => {

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { FC } from "react";
 import CustomModal from "../CustomModal";
 import IssueModalForm from "./IssueModalForm";

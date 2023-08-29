@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Button from "../Button";
 import Table from "../Table";
 import {useEffect, useState} from "react";

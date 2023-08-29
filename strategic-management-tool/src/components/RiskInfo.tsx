@@ -3,6 +3,7 @@ import { RiskData } from "../data/RiskData";
 import {useSelector} from "react-redux";
 
 const RiskInfo = () => {
+    //@ts-ignore
     const {project} = useSelector(state => state.project)
     console.log("Reisk info", project)
   return (

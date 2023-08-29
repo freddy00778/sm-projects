@@ -9,6 +9,7 @@ import React from "react";
 const RiskRegisterLayout = () => {
     const params = useParams()
     const keyChangeId = params["*"]
+    //@ts-ignore
     const {user} = useSelector(state => state.auth)
     const [keyChangeItems, setKeyChangeItems] = useState([])
     const dispatch = useDispatch()

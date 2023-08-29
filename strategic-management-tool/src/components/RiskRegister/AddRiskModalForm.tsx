@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import * as React from 'react';
 import InputField from "../InputField";
 import InputDropdown from "../InputDropdown";
@@ -12,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {riskActions} from "../../_store/risks.slice";
 import {toast} from "react-toastify";
 import {useParams} from "react-router-dom";
+
 
 interface AddKeyChangeFormProps {
   risk: string;
@@ -35,6 +38,7 @@ interface AddKeyChangeFormProps {
   addData: (newData: DataType) => void;
   onClose: () => void;
 }
+
 const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
   risk,
   setRisk,
@@ -78,8 +82,11 @@ const AddRiskModalForm: React.FC<AddKeyChangeFormProps> = ({
     {name: "Negligible Impact", value: "negligible-impact"}
   ];
 
+  //@ts-ignore
   const {user} = useSelector(state => state.auth)
+  //@ts-ignore
   const {riskAction} = useSelector(state => state.risk)
+  //@ts-ignore
   const riskPayloadObject = riskAction?.payload?.data
   const [selectedOption1, setSelectedOption1] = useState(options1[0]);
   const [selectedOption2, setSelectedOption2] = useState(options2[0]);

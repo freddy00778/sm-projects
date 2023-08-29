@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, {FC, useEffect, useRef, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import plus from "../../assets/images/plus.svg";

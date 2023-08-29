@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Outlet } from "react-router-dom";
 import KeyChangesHeader from "./KeyChangesHeader";
 import { KeyChangesLinksData } from "../../data/KeyChangesLinksData";

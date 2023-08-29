@@ -31,7 +31,12 @@ export const get = (stakeholderChangeDrivers: () => QueryBuilder) => async (inpu
 }
 
 export const getAll = (stakeholderChangeDrivers: () => QueryBuilder) => async (input: GetInput) => {
-  return stakeholderChangeDrivers().select().where(input);
+  const qb = stakeholderChangeDrivers().select('StakeholderChangeDriversDepartment.*','Department.name as department_name')
+      .from('StakeholderChangeDriversDepartment')
+      .leftJoin('Department', 'Department.id', 'StakeholderChangeDriversDepartment.department_id')
+      .where(input)
+
+  return qb.orderBy("created_at", "DESC")
 }
 
 export const insert = (stakeholderChangeDrivers: () => QueryBuilder) => async (input: GetInput) => {

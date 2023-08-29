@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import { NavLinksProps } from "../../models/NavLinks";

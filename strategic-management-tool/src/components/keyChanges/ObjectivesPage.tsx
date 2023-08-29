@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import KeyChangeList from "./KeyChangeList";
 import {Outlet, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";

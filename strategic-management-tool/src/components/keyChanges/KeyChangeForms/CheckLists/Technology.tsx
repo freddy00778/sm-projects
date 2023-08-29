@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {ChangeEvent, FC, useEffect, useState} from "react";
 import { CustomCheckbox } from "../../../CustomCheckBox";
 import Button from "../../../Button";

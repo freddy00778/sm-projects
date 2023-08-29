@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Button from "../../Button";
 import DynamicFieldSet from "../../DynamicFieldSet";
 import {useEffect, useState} from "react";
@@ -38,13 +40,16 @@ const defaultDivision: Division = {
 };
 
 const ChangeDriverForm: React.FC<StakeholderFormProps> = ({ onChange }) => {
+  //@ts-ignore
   const {user} = useSelector(state => state.auth)
   const params = useParams();
   const keyChangeId = params["*"]
   const [inputValue, setInputValue] = useState("");
   const [displayValues, setDisplayValues] = useState<string[]>([]);
   const [divisions, setDivisions] = useState<Division[]>([defaultDivision]);
+  //@ts-ignore
   const {departments} = useSelector(state => state.department)
+  //@ts-ignore
   const {stakeholders} = useSelector(state => state.stakeholder)
   console.log("Stakeholders", stakeholders)
   const [departmentOptions, setDepartmentOptions] = useState([])

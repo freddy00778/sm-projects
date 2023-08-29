@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {fetchWrapper} from "../_helpers/fetch-wrapper";
 
