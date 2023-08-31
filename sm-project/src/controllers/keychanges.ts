@@ -49,7 +49,7 @@ export const updateKeyChange = catchErrors(async (req, res) => {
     const data = await DataProvider.create()
     const keyChangeHandler = await KeyChangeHandlers.create(data)
 
-    const id = req.params.id;
+    const id = req.body.id;
     const updateData = req.body;
     if (!id || !updateData) {
         res.send("Missing key change id or update data").status(400)

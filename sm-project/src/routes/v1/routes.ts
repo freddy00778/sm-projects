@@ -55,7 +55,7 @@ export const attachPublicRoutes = (app: express.Application): void => {
   app.get('/api/v1/key-changes', Auth.authorize(), keychanges.getKeyChanges)
   app.get('/api/v1/key-changes/:id', Auth.authorize(), keychanges.getKeyChanges)
   app.post('/api/v1/key-changes',    Auth.authorize(), keychanges.addKeyChange)
-  app.patch('/api/v1/key-changes',   Auth.authorize(), keychanges.addKeyChange)
+  app.patch('/api/v1/key-changes',   Auth.authorize(), keychanges.updateKeyChange)
   app.delete('/api/v1/key-changes/:id', Auth.authorize(), keychanges.deleteKeyChange)
 
   //Objective routes
